@@ -12,64 +12,61 @@
   	<script src="demo1.js" type="text/javascript"></script>
   </head>
   <body>
-    <div id="wrapper">
-  		<form id="grid-filter">
-	  		<fieldset>
-	  			<legend>Filter by type</legend>
-	  			<label><input type="radio" name="type" value="all" checked="checked">All</label>
-	  			<label><input type="radio" name="type" value="ut">Utilities</label>
-	  			<label><input type="radio" name="type" value="sys">System tools</label>
-	  			<legend>Sort by</legend>
-	  			<label><input type="radio" name="sort" value="size" checked="checked">Size</label>
-	  			<label><input type="radio" name="sort" value="name">Name</label>			
-	  		</fieldset>
-	  	</form>
+    
+  	<form id="grid-filter">
+  		<fieldset>
+  			<legend>Filter by type</legend>
+  			<label><input type="radio" name="type" value="all" checked="checked">All</label>
+  			<label><input type="radio" name="type" value="ut">Utilities</label>
+  			<label><input type="radio" name="type" value="sys">System tools</label>
+  			<legend>Sort by</legend>
+  			<label><input type="radio" name="sort" value="size" checked="checked">Size</label>
+  			<label><input type="radio" name="sort" value="name">Name</label>			
+  		</fieldset>
+  	</form>
 
-		<article>
-		  	<ul id="list" class="image-grid">
-		  		<li data-id="id-5"><img src="i/5.png" /><p><strong>Front row</strong>4 KB</p></li>
-		  		<li data-id="id-1"><img src="i/1.png" /><p><strong>Project</strong>56 KB</p></li>
-		  		<li data-id="id-10"><img src="i/10.png" /><p><strong>Finder</strong>65 KB</p></li>
-		  		<li data-id="id-8"><img src="i/8.png" /><p><strong>iSync</strong>67 KB</p></li>
-		  		<li data-id="id-12"><img src="i/12.png"><p><strong>Radar</strong>256 KB</p></li>
-		  		<li data-id="id-3"><img src="i/3.png" /><p><strong>Monitor</strong>465 KB</p></li>
-		  		<li data-id="id-13"><img src="i/13.png" /><p><strong>TextEdit</strong>502 KB</p></li>
-		  		<li data-id="id-9"><img src="i/9.png" /><p><strong>iTunes</strong>578 KB</p></li>
-		  		<li data-id="id-11"><img src="i/11.png"><p><strong>iCal</strong>596 KB</p></li>
-		  		<li data-id="id-2"><img src="i/2.png" /><p><strong>Keychain</strong>799 KB</p></li>
-		  		<li data-id="id-4"><img src="i/4.png" /><p><strong>Address book</strong>5454 KB</p></li>
-		  		<li data-id="id-6"><img src="i/6.png" /><p><strong>iChat</strong>6545 KB</p></li>
-		  		<li data-id="id-7"><img src="i/7.png" /><p><strong>Network</strong>45688 KB</p></li>
-		  	</ul>
-			<ul id="data" style="display: none;">
-		  		<li data-type="ut" data-id="id-13"><img src="i/13.png" /><p><strong>TextEdit</strong><span data-type="size">502 KB</span></p></li>
-		  		<li data-type="ut" data-id="id-4"><img src="i/4.png" /><p><strong>Address book</strong><span data-type="size">5454 KB</span></p></li>
-		  		<li data-type="sys" data-id="id-10"><img src="i/10.png" /><p><strong>Finder</strong><span data-type="size">65 KB</span></p></li>
-		  		<li data-type="ut" data-id="id-5"><img src="i/5.png" /><p><strong>Front row</strong><span data-type="size">4 KB</span></p></li>
-		  		<li data-type="ut" data-id="id-11"><img src="i/11.png"><p><strong>iCal</strong><span data-type="size">596 KB</span></p></li>
-		  		<li data-type="ut" data-id="id-6"><img src="i/6.png" /><p><strong>iChat</strong><span data-type="size">6545 KB</span></p></li>
-		  		<li data-type="sys" data-id="id-8"><img src="i/8.png" /><p><strong>iSync</strong><span data-type="size">67 KB</span></p></li>
-		  		<li data-type="ut" data-id="id-9"><img src="i/9.png" /><p><strong>iTunes</strong><span data-type="size">578 KB</span></p></li>
-		  		<li data-type="sys" data-id="id-2"><img src="i/2.png" /><p><strong>Keychain</strong><span data-type="size">799 KB</span></p></li>
-		  		<li data-type="sys" data-id="id-3"><img src="i/3.png" /><p><strong>Monitor</strong><span data-type="size">465 KB</span></p></li>
-		  		<li data-type="sys" data-id="id-7"><img src="i/7.png" /><p><strong>Network</strong><span data-type="size">45688 KB</span></p></li>
-		  		<li data-type="ut" data-id="id-1"><img src="i/1.png" /><p><strong>Project</strong><span data-type="size">56 KB</span></p></li>
-		  		<li data-type="sys" data-id="id-12"><img src="i/12.png"><p><strong>Radar</strong><span data-type="size">256 KB</span></p></li>		
+  	<ul id="list" class="image-grid">
+  		<li data-id="id-5"><img src="i/5.png" /><p><strong>Front row</strong>4 KB</p></li>
+  		<li data-id="id-1"><img src="i/1.png" /><p><strong>Project</strong>56 KB</p></li>
+  		<li data-id="id-10"><img src="i/10.png" /><p><strong>Finder</strong>65 KB</p></li>
+  		<li data-id="id-8"><img src="i/8.png" /><p><strong>iSync</strong>67 KB</p></li>
+  		<li data-id="id-12"><img src="i/12.png"><p><strong>Radar</strong>256 KB</p></li>
+  		<li data-id="id-3"><img src="i/3.png" /><p><strong>Monitor</strong>465 KB</p></li>
+  		<li data-id="id-13"><img src="i/13.png" /><p><strong>TextEdit</strong>502 KB</p></li>
+  		<li data-id="id-9"><img src="i/9.png" /><p><strong>iTunes</strong>578 KB</p></li>
+  		<li data-id="id-11"><img src="i/11.png"><p><strong>iCal</strong>596 KB</p></li>
+  		<li data-id="id-2"><img src="i/2.png" /><p><strong>Keychain</strong>799 KB</p></li>
+  		<li data-id="id-4"><img src="i/4.png" /><p><strong>Address book</strong>5454 KB</p></li>
+  		<li data-id="id-6"><img src="i/6.png" /><p><strong>iChat</strong>6545 KB</p></li>
+  		<li data-id="id-7"><img src="i/7.png" /><p><strong>Network</strong>45688 KB</p></li>
+  	</ul>
+	<ul id="data" style="display: none;">
+  		<li data-type="ut" data-id="id-13"><img src="i/13.png" /><p><strong>TextEdit</strong><span data-type="size">502 KB</span></p></li>
+  		<li data-type="ut" data-id="id-4"><img src="i/4.png" /><p><strong>Address book</strong><span data-type="size">5454 KB</span></p></li>
+  		<li data-type="sys" data-id="id-10"><img src="i/10.png" /><p><strong>Finder</strong><span data-type="size">65 KB</span></p></li>
+  		<li data-type="ut" data-id="id-5"><img src="i/5.png" /><p><strong>Front row</strong><span data-type="size">4 KB</span></p></li>
+  		<li data-type="ut" data-id="id-11"><img src="i/11.png"><p><strong>iCal</strong><span data-type="size">596 KB</span></p></li>
+  		<li data-type="ut" data-id="id-6"><img src="i/6.png" /><p><strong>iChat</strong><span data-type="size">6545 KB</span></p></li>
+  		<li data-type="sys" data-id="id-8"><img src="i/8.png" /><p><strong>iSync</strong><span data-type="size">67 KB</span></p></li>
+  		<li data-type="ut" data-id="id-9"><img src="i/9.png" /><p><strong>iTunes</strong><span data-type="size">578 KB</span></p></li>
+  		<li data-type="sys" data-id="id-2"><img src="i/2.png" /><p><strong>Keychain</strong><span data-type="size">799 KB</span></p></li>
+  		<li data-type="sys" data-id="id-3"><img src="i/3.png" /><p><strong>Monitor</strong><span data-type="size">465 KB</span></p></li>
+  		<li data-type="sys" data-id="id-7"><img src="i/7.png" /><p><strong>Network</strong><span data-type="size">45688 KB</span></p></li>
+  		<li data-type="ut" data-id="id-1"><img src="i/1.png" /><p><strong>Project</strong><span data-type="size">56 KB</span></p></li>
+  		<li data-type="sys" data-id="id-12"><img src="i/12.png"><p><strong>Radar</strong><span data-type="size">256 KB</span></p></li>		
 
-		  	</ul>
-			<p>The following code triggers shuffling animation, leaving only system tools:</p>
-			<pre>
-				<code>
-		$("#list").quicksand("#data li[data-type=sys]", 
-			{
-				selector: "> li",
-				attribute: "data-id"
-			}
-		);</code>
-			</pre>
-			<a href="../index.html" class="back">« back</a>
-		</article>
-	</div>
+  	</ul>
+	<p>The following code triggers shuffling animation, leaving only system tools:</p>
+	<pre>
+		<code>
+$("#list").quicksand("#data li[data-type=sys]", 
+	{
+		selector: "> li",
+		attribute: "data-id"
+	}
+);</code>
+	</pre>
+	<a href="../index.html" class="back">« back</a>
 	<footer><p>Icons taken from <a href="http://www.iconarchive.com/category/system/mac-icons-by-artua.html">iconarchive.com</a></p></footer>
   </body>
 </html>

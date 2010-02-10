@@ -26,8 +26,10 @@ Github site: http://github.com/RazorJack/Quicksand
 		$.extend(options, customOptions);
 		var $collection = $(collection).clone();
 		return this.each(function (i) {
+
 			var $sourceParent = $(this);
 			var $subject = $(this);
+			var sourceHeight = $(this).css('height');
 
 			var horizCorrection = parseFloat($("body").css('border-left-width'));
 			var vertCorrection = parseFloat($("body").css('border-top-width'));
@@ -54,6 +56,7 @@ Github site: http://github.com/RazorJack/Quicksand
 			var postCallback = function () {
 				if (!postCallbackPerformed) {
 					$sourceParent.html($dest.html());
+					
 					$dest.remove();
 					postCallbackPerformed = 1;
 				}
@@ -69,7 +72,9 @@ Github site: http://github.com/RazorJack/Quicksand
 			
 			
 			if (options.adjustHeight) {
-				$sourceParent.animate({height: $dest.height()}, options.duration, options.easing);
+				$sourceParent.animate({height: $dest.height()}, options.duration, options.easing, function (e) {
+					$sourceParent.css('height', 'auto');
+				});
 			}
 			
 			$source.each(function (i) {
