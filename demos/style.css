@@ -50,6 +50,7 @@ blockquote, q {
 
 html, body {
   background-color: #333;
+  
 }
 
 body {
@@ -57,6 +58,13 @@ body {
 
   color: #ccc;
   margin: 10px;
+
+}
+
+html, body, article, #wrapper {
+	border: 5px solid black;
+	padding: 5px;
+	margin: 5px;
 }
 
 ol.demo-ol {
@@ -107,10 +115,8 @@ p {
 
 ul.image-grid li {
   border: none;
-
   width: 175px;
   float: left;
-
 }
 
 ul.image-grid li img {

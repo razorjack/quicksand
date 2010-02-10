@@ -24,9 +24,13 @@ Github site: http://github.com/RazorJack/Quicksand
 		};
 
 		$.extend(options, customOptions);
-		var $collection = $(collection).clone();	
+		var $collection = $(collection).clone();
 		return this.each(function (i) {
 			var $sourceParent = $(this);
+			var $subject = $(this);
+
+			var horizCorrection = parseFloat($("body").css('border-left-width'));
+			var vertCorrection = parseFloat($("body").css('border-top-width'));
 			$sourceParent.css('height', $(this).height());
 			var $source = $(this).find(options.selector);
 			
@@ -34,14 +38,15 @@ Github site: http://github.com/RazorJack/Quicksand
 			$source.each(function (i) {
 				offsets[i] = $(this).offset();
 			});
-				
+			
+			$(this).stop();	
 			$source.each(function (i) {
 				$(this).stop();
 				$(this)
 				  .css('position', 'absolute')
 				  .css('margin', 0)
-				  .css('top', offsets[i].top - parseFloat($(this).css('margin-top')))
-				  .css('left', offsets[i].left - parseFloat($(this).css('margin-left')));
+				  .css('top', offsets[i].top - parseFloat($(this).css('margin-top')) + vertCorrection)
+				  .css('left', offsets[i].left - parseFloat($(this).css('margin-left')) + horizCorrection);
 			});
 				
 			var $dest = $($sourceParent).clone().html("").attr('id', "").css('height', 'auto').append($collection);
@@ -59,21 +64,21 @@ Github site: http://github.com/RazorJack/Quicksand
 										     .css('opacity', 0.0)
 										     .css('margin', 0.0)
 										     .css('position', 'absolute')
-										     .css('top', offset.top)
-										     .css('left', offset.left);
+										     .css('top', offset.top + vertCorrection)
+										     .css('left', offset.left + horizCorrection);
 			
 			
 			if (options.adjustHeight) {
 				$sourceParent.animate({height: $dest.height()}, options.duration, options.easing);
 			}
-
+			
 			$source.each(function (i) {
 				var destElement = $collection.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
 				if (destElement.length) {
 					if ($.browser.msie) {
-						$(this).animate({top: destElement.offset().top, left: destElement.offset().left, opacity: 1.0}, options.duration, options.easing, postCallback);
+						$(this).animate({top: destElement.offset().top + vertCorrection, left: destElement.offset().left + horizCorrection, opacity: 1.0}, options.duration, options.easing, postCallback);
 					} else {
-						$(this).animate({top: destElement.offset().top, left: destElement.offset().left, opacity: 1.0, scale: '1.0'}, options.duration, options.easing, postCallback);
+						$(this).animate({top: destElement.offset().top + vertCorrection, left: destElement.offset().left + horizCorrection, opacity: 1.0, scale: '1.0'}, options.duration, options.easing, postCallback);
 					}
 				} else {
 					if ($.browser.msie) {
@@ -103,8 +108,8 @@ Github site: http://github.com/RazorJack/Quicksand
 					  .clone()
 						.css('position', 'absolute')
 						.css('margin', 0.0)
-						.css('top', destElement.offset().top)
-						.css('left', destElement.offset().left)
+						.css('top', destElement.offset().top + vertCorrection)
+						.css('left', destElement.offset().left + horizCorrection)
 						.css('opacity', 0.0)
 						.css('transform', 'scale(0.0)')
 						.appendTo($sourceParent)
