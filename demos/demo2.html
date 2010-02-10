@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8" />
+  	<title>jquery.quicksand — Demo 2: Ajax</title>
+  	<link rel="stylesheet" href="style.css" />
+    <script src="jquery-1.4.1.min.js" type="text/javascript"></script>
+  	<script src="jquery.easing.1.3.js" type="text/javascript"></script>
+  	<script src="jquery-css-transform.js" type="text/javascript"></script>
+  	<script src="jquery-animate-css-rotate-scale.js" type="text/javascript"></script>
+  	<script src="../jquery.quicksand.js" type="text/javascript"></script>
+  	<script src="demo2.js" type="text/javascript"></script>
+  </head>
+  <body>
+	<p id="control-panel">Show <a href="ajax-all.html">all</a>, <a href="ajax-rgb.html">RGB</a>, <a href="ajax-cmyk.html">CMYK</a>, <a href="ajax-mono.html">monochromatic</a>, <a href="ajax-all-randomized.html">randomized</a>, </p>
+  	<ol id="content" class="demo-ol">
+		<li data-id="red">Red</li>
+		<li data-id="green">Green</li>
+		<li data-id="blue">Blue</li>
+		<li data-id="black">Black</li>
+		<li data-id="white">White</li>
+		<li data-id="yellow">Yellow</li>
+		<li data-id="cyan">Cyan</li>
+		<li data-id="magenta">Magenta</li>		
+	</ol>
+	<p>The following code triggers shuffling animation, loading (via XHR) only CMYK items:</p>
+	<pre>
+		<code>
+$.get("ajax-cmyk.html", function(data) {
+  	$("#content").quicksand($(data).find(" > li"));
+});</code>
+	</pre>
+	<a href="../index.html" class="back">« back</a>
+  </body>
+</html>
