@@ -1,6 +1,8 @@
 /*
 
-Quicksand - reorder and filter items with a nice shuffling animation.
+Quicksand 1.0
+
+Reorder and filter items with a nice shuffling animation.
 
 Copyright (c) 2010 Jacek Galanciak (razorjack.net) and agilope.com
 Big thanks for Piotr Petrus (riddle.pl) for deep code review and wonderful docs & demos.

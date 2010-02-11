@@ -10,7 +10,7 @@ I love Mac apps, especially for their attention to detail. CoreAnimation makes i
 
 h2. Usage
 
-The following example would filter items in #content, leaving only CMYK colors.
+The following example would filter items in #content with shuffling animation, leaving only CMYK colors. 
 
 <pre>
 $("#content").quicksand($("#data > li"), 
@@ -60,10 +60,9 @@ No additional CSS is required for the plugin to work. However, you should avoid 
 
 You can specify a callback function as an optional last argument.
 
-h2. Demos
+h2. Demos & docs
 
-Image grid and data from markup: http://razorjack.net/quicksand/demos/demo1.html
-Ajax: http://razorjack.net/quicksand/demos/demo2.html
+Please visit "the project site":http://razorjack.net/quicksand for live demos & documentation.
 
 h2. Requirements
 
@@ -91,8 +90,8 @@ I recommend using jquery.quicksand plugin with HTML5 markup but any other option
 
 h2. Extra credits
 
-Huge thanks go to "Peter Petrus":http://riddle.pl for deep code review and creating stunning documentation design.
+Huge thanks go to "Piotr Petrus":http://riddle.pl for deep code review and creating stunning documentation design.
 
 h2. Licensing
 
-Copyright (c) 2010 "Jack Galanciak":http://razorjack.net, released under both "MIT":http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) and "GPL version 2":http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt license.
+Copyright (c) 2010 "Jacek Galanciak":http://razorjack.net, released under both "MIT":http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt and "GPL version 2":http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt license.
