@@ -1,12 +1,12 @@
 h1. Quicksand
 
-jQuery plugin for reordering and filtering items with a nice shuffling animation.
+jQuery plugin for reordering and filtering items with a nice shuffling animation like the one "in this video":http://www.viddler.com/explore/37signals/videos/90/8.805/.
 
-Project site: "http://razorjack.net/quicksand":http://razorjack.net/quicksand
+Project site: "http://razorjack.net/quicksand":http://razorjack.net/quicksand. 
 
-h2. The story
+h2. Demos & docs
 
-I love Mac apps, especially for their attention to detail. CoreAnimation makes it so easy to make useful and eye-pleasing effects, like the one "in this video":http://www.viddler.com/explore/37signals/videos/90/8.805/. Quicksand aims at providing a similar experience for users on the web.
+Please visit "the project site":http://razorjack.net/quicksand for live demos & documentation.
 
 h2. Usage
 
@@ -20,7 +20,6 @@ $("#content").quicksand($("#data > li"),
 		duration: 1000,
 		easing: "easeInOutQuad",
 		attribute: "data-id",
-		adjustHeight: true
 	}
 );
 </pre>
@@ -60,18 +59,12 @@ No additional CSS is required for the plugin to work. However, you should avoid 
 
 You can specify a callback function as an optional last argument.
 
-h2. Demos & docs
 
-Please visit "the project site":http://razorjack.net/quicksand for live demos & documentation.
-
-h2. Requirements
+h2. Dependencies
 
 * jQuery 1.3+
-
-h2. Optional dependencies
-
-* jQuery Easing (http://gsgd.co.uk/sandbox/jquery/easing/) for additional easing options
-* jquery-animate-css-rotate-scale.js (www.zachstronaut.com) for additional CSS3 scaling animation; works fine without this plugin (utilizes fade efect instead)
+* Optional: jQuery Easing (http://gsgd.co.uk/sandbox/jquery/easing/) for additional easing options
+* Optional: jquery-animate-css-rotate-scale.js (www.zachstronaut.com) for additional CSS3 scaling animation; works fine without this plugin (utilizes fade efect instead)
 
 h2. Browser compatibility
 
@@ -86,12 +79,8 @@ Tested under:
 
 No Internet Explorer 6 support is planned. Ever.
 
-I recommend using jquery.quicksand plugin with HTML5 markup but any other option is fine.
-
-h2. Extra credits
-
-Huge thanks go to "Piotr Petrus":http://riddle.pl for deep code review and creating stunning documentation design.
+I recommend using the plugin with HTML5 markup but any other option is fine.
 
 h2. Licensing
 
-Copyright (c) 2010 "Jacek Galanciak":http://razorjack.net, released under both "MIT":http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt and "GPL version 2":http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt license.
+Copyright (c) 2010 "Jacek Galanciak":http://razorjack.net and "agilope":http://agilope.com, released under both "MIT":http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt and "GPL version 2":http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt license.
