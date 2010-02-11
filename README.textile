@@ -2,9 +2,11 @@ h1. Quicksand
 
 jQuery plugin for reordering and filtering items with a nice shuffling animation.
 
+Project site: "http://razorjack.net/quicksand":http://razorjack.net/quicksand
+
 h2. The story
 
-I love Mac apps, especially for their attention to detail. It would be nice to use effect shown in the video at http://www.viddler.com/explore/37signals/videos/90/8.805/ in a web app. Well, it's actually possible.
+I love Mac apps, especially for their attention to detail. CoreAnimation makes it so easy to make useful and eye-pleasing effects, like the one "in this video":http://www.viddler.com/explore/37signals/videos/90/8.805/. Quicksand aims at providing a similar experience for users on the web.
 
 h2. Usage
 
@@ -17,7 +19,6 @@ $("#content").quicksand($("#data > li"),
 		// and in most cases can be optional
 		duration: 1000,
 		easing: "easeInOutQuad",
-		selector: "> li",
 		attribute: "data-id",
 		adjustHeight: true
 	}
@@ -46,7 +47,7 @@ The markup could look like this:
 </ol>
 </pre>
 
-Please note that you need to set additional attribute (you can specify which one in options hash) so that the plugin can identify same elements within source and destination collections.
+Please note that you need to set additional attribute (you can specify which one in options hash, by default it's data-id) so that the plugin can identify same elements within source and destination collections.
 
 No additional CSS is required for the plugin to work. However, you should avoid styling the subject container using id selectors --- please use class instead.
 
@@ -54,9 +55,10 @@ No additional CSS is required for the plugin to work. However, you should avoid 
 * the first parameter ( $("#data > li") ) should contain a collection which will replace contents of the subject
 * @duration@ - specifies duration (in milliseconds) of the animation effect, default: 750
 * @easing@ - animation easing effect, default: swing
-* @selector@ - selector to pick the items from the subject container (here: #content > li), default: > li
 * @attribute@ - attribute containing unique value able to identify same item within source and destination collection, default: data-id
 * @adjustHeight@ - put false if you don't want to change the subject's height during the process, default: true
+
+You can specify a callback function as an optional last argument.
 
 h2. Demos
 
@@ -89,8 +91,8 @@ I recommend using jquery.quicksand plugin with HTML5 markup but any other option
 
 h2. Extra credits
 
-Huge thanks go to Peter Petrus (riddle.pl) for deep code review and creating stunning documentation design.
+Huge thanks go to "Peter Petrus":http://riddle.pl for deep code review and creating stunning documentation design.
 
 h2. Licensing
 
-Copyright (c) 2010 Jack Galanciak, released under both MIT (http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) and GPL version 2 (http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt) license.
+Copyright (c) 2010 "Jack Galanciak":http://razorjack.net, released under both "MIT":http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) and "GPL version 2":http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt license.
