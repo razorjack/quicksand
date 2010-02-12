@@ -1,6 +1,6 @@
 /*
 
-Quicksand 1.0
+Quicksand 1.1
 
 Reorder and filter items with a nice shuffling animation.
 
@@ -73,7 +73,13 @@ Github site: http://github.com/razorjack/quicksand
 			var offsets = []; // coordinates of every source collection item			
 			
 			var $source = $(this).find(options.selector); // source collection items
-						
+			
+			// Replace the collection and quit if IE6
+			if ($.browser.msie && $.browser.version.substr(0,1)<7) {
+				$sourceParent.html('').append($collection);
+				return;
+			}
+
 			// Gets called when any animation is finished
 			var postCallbackPerformed = 0; // prevents the function from being called more than one time
 			var postCallback = function () {
@@ -87,6 +93,7 @@ Github site: http://github.com/razorjack/quicksand
 				}
 			};
 			
+			// Position: relative situations
 			var $correctionParent = $sourceParent.offsetParent();
 			var correctionOffset = $correctionParent.offset();
 			if ($correctionParent.css('position') == 'relative') {
@@ -151,16 +158,11 @@ Github site: http://github.com/razorjack/quicksand
 			// If destination container has different height than source container
 			// the height can be animated, adjusting it to destination height
 			if (options.adjustHeight) {
-				$sourceParent.animate({height: $dest.height()}, options.duration, options.easing, function (e) {
-					$sourceParent.css('height', 'auto');
-				});
+				$sourceParent.animate({height: $dest.height()}, options.duration, options.easing);
 			}
-			
-			
-			
+				
 			// Now it's time to do shuffling animation
-			// First of all, we need to identify same elements within
-			
+			// First of all, we need to identify same elements within source and destination collections	
 			$source.each(function (i) {
 				var destElement = $collection.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
 				if (destElement.length) {

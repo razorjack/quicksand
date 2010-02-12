@@ -1,0 +1,13 @@
+h1. jQuery Quicksand plugin release notes
+
+h2. v1.1
+
+# Fixed issues with position: relative
+# Fixed occasional flickering
+# Moderate performance improvements
+# Disabled any animation in IE6 for more safety
+# Added support for jQuery 1.3
+
+h2. v1.0
+
+First, feature-complete release of jQuery Quicksand plugin.
