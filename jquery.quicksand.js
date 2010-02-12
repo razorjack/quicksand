@@ -48,7 +48,14 @@ Github site: http://github.com/razorjack/quicksand
 				name += '#' + $(node).attr('id');
 			}
 			nodes.push(name);
-			$(node).parentsUntil("html").each(function () {
+			
+			var parents = []
+			while (! ($(node).get(0).nodeName.toLowerCase() == 'html')) {
+				parents.push(node);
+				node = node.parent();
+			}
+			
+			$(parents).each(function () {
 				name = $(this).get(0).nodeName.toLowerCase();
 				if ($(this).attr('id')) {
 					name += '#' + $(this).attr('id');
@@ -107,8 +114,6 @@ Github site: http://github.com/razorjack/quicksand
 			
 			// stops previous animations on source container
 			$(this).stop();	
-			
-
 			$source.each(function (i) {
 				$(this).stop(); // stop animation of collection items
 				
