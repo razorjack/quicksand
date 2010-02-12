@@ -16,7 +16,6 @@ Github site: http://github.com/razorjack/quicksand
 
 */
 
-
 (function ($) {
 	$.fn.quicksand = function (collection, customOptions) {
 		var options = {
@@ -41,6 +40,9 @@ Github site: http://github.com/razorjack/quicksand
 		// helping to clean it up after interrupted animation
 		function cssPath(node) {
 			var nodes = []
+			if ($(node).get(0) == undefined) {
+				return "";
+			}
 			var name = $(node).get(0).nodeName.toLowerCase();
 			if ($(node).attr('id')) {
 				name += '#' + $(node).attr('id');
@@ -61,18 +63,10 @@ Github site: http://github.com/razorjack/quicksand
 			var $sourceParent = $(this); // source, the visible container of source collection
 			var sourceHeight = $(this).css('height'); // used to keep height and document flow during the animation
 			var offset = $($sourceParent).offset(); // offset of visible container, used in animation calculations
-			var offsets = []; // coordinates of every source collection item
-			
-			// both variables are used to correct positioning within bordered body
-			var leftBorderCorrection = parseFloat($('body').css('border-left-width'));
-			var topBorderCorrection = parseFloat($('body').css('border-top-width'));
+			var offsets = []; // coordinates of every source collection item			
 			
 			var $source = $(this).find(options.selector); // source collection items
-			
-			// used to correct coordinates when any container node has position: relative
-			var relativeTop = 0;
-			var relativeLeft = 0;
-			
+						
 			// Gets called when any animation is finished
 			var postCallbackPerformed = 0; // prevents the function from being called more than one time
 			var postCallback = function () {
@@ -85,19 +79,27 @@ Github site: http://github.com/razorjack/quicksand
 					postCallbackPerformed = 1;
 				}
 			};
+			
+			var $correctionParent = $sourceParent.offsetParent();
+			var correctionOffset = $correctionParent.offset();
+			if ($correctionParent.css('position') == 'relative') {
+				if ($correctionParent.get(0).nodeName.toLowerCase() == 'body') {
+
+				} else {
+					correctionOffset.top += parseFloat($correctionParent.css('border-top-width'));
+					correctionOffset.left += parseFloat($correctionParent.css('border-left-width'));
+				}
+			} else {
+				correctionOffset.top -= parseFloat($correctionParent.css('border-top-width'));
+				correctionOffset.left -= parseFloat($correctionParent.css('border-left-width'));
+				correctionOffset.top -= parseFloat($correctionParent.css('margin-top'));
+				correctionOffset.left -= parseFloat($correctionParent.css('margin-left'));
+			}
+
 
 			// keeps nodes after source container, holding their position
 			$sourceParent.css('height', $(this).height());
 			
-			// find first position: relative node and set it as a point of reference compatible with position: absolute	
-			$($source.parentsUntil("html").toArray().reverse()).each(function (i) {
-				if ($(this).css('position') == 'relative') {
-					o = $(this).offset();
-					relativeTop = o.top;
-					relativeLeft = o.left;
-				}
-			});
-
 			// get positions of source collections
 			$source.each(function (i) {
 				offsets[i] = $(this).offset();
@@ -106,6 +108,7 @@ Github site: http://github.com/razorjack/quicksand
 			// stops previous animations on source container
 			$(this).stop();	
 			
+
 			$source.each(function (i) {
 				$(this).stop(); // stop animation of collection items
 				
@@ -114,12 +117,11 @@ Github site: http://github.com/razorjack/quicksand
 				$(this)
 				  .css('position', 'absolute')
 				  .css('margin', 0)
-				  .css('top', offsets[i].top - parseFloat($(this).css('margin-top')) + topBorderCorrection - relativeTop)
-				  .css('left', offsets[i].left - parseFloat($(this).css('margin-left')) + leftBorderCorrection - relativeLeft);
-
+				  .css('top', offsets[i].top - parseFloat($(this).css('margin-top')) - correctionOffset.top)
+				  .css('left', offsets[i].left - parseFloat($(this).css('margin-left')) - correctionOffset.left);
 			});
-			
-			// cleate temporary container with destination collection
+					
+			// create temporary container with destination collection
 			var $dest = $($sourceParent)
 				.clone()
 				.html('')
@@ -127,19 +129,18 @@ Github site: http://github.com/razorjack/quicksand
 				.attr("data-quicksand-owner", $sourceParent.selector)
 				.css('height', 'auto')
 				.css('width', $sourceParent.width() + 'px')
-				.append($collection);
-				
+				.append($collection);		
 			// insert node into HTML
 			// Note that the node is under visible source container in the exactly same position
 			// The browser render all the items without showing them (opacity: 0.0)
 			// No offset calculations are needed, the browser just extracts position from underlayered destination items
 			// and sets animation to destination positions.
-			$dest.insertBefore($sourceParent).css('z-index', -1)
+			$dest.insertBefore($sourceParent).css('z-index', 1)
 										     .css('opacity', 0.0)
 										     .css('margin', 0.0)
 										     .css('position', 'absolute')
-										     .css('top', offset.top + topBorderCorrection - relativeTop)
-										     .css('left', offset.left + leftBorderCorrection - relativeLeft)
+										     .css('top', offset.top - correctionOffset.top)
+										     .css('left', offset.left - correctionOffset.left)
 											 .attr('data-quicksand-owner', cssPath($sourceParent));		
 			
 			// If destination container has different height than source container
@@ -163,9 +164,9 @@ Github site: http://github.com/razorjack/quicksand
 					if ($.browser.msie) {
 						// Got IE and want gorgeous scaling animation?
 						// Kiss my butt
-						$(this).animate({top: destElement.offset().top + topBorderCorrection - relativeTop, left: destElement.offset().left + leftBorderCorrection - relativeLeft, opacity: 1.0}, options.duration, options.easing, postCallback);
+						$(this).animate({top: destElement.offset().top - correctionOffset.top, left: destElement.offset().left - correctionOffset.left, opacity: 1.0}, options.duration, options.easing, postCallback);
 					} else {
-						$(this).animate({top: destElement.offset().top + topBorderCorrection - relativeTop, left: destElement.offset().left + leftBorderCorrection - relativeLeft, opacity: 1.0, scale: '1.0'}, options.duration, options.easing, postCallback);
+						$(this).animate({top: destElement.offset().top - correctionOffset.top, left: destElement.offset().left - correctionOffset.left, opacity: 1.0, scale: '1.0'}, options.duration, options.easing, postCallback);
 					}
 				} else {
 					// The item from source collection is not present in destination collections
@@ -201,8 +202,8 @@ Github site: http://github.com/razorjack/quicksand
 					  .clone()
 						.css('position', 'absolute')
 						.css('margin', 0.0)
-						.css('top', destElement.offset().top + topBorderCorrection - relativeTop)
-						.css('left', destElement.offset().left + leftBorderCorrection - relativeLeft)
+						.css('top', destElement.offset().top - correctionOffset.top)
+						.css('left', destElement.offset().left - correctionOffset.left)
 						.css('opacity', 0.0)
 						.css('transform', 'scale(0.0)')
 						.appendTo($sourceParent)
