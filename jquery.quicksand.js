@@ -34,36 +34,7 @@ Github site: http://github.com/razorjack/quicksand
 		} else if (typeof(arguments[2] == 'function')) {
 			var callbackFunction = arguments[2];
 		}
-		
-		// get CSS path of the node
-		// indentifies the owner of the temporary container
-		// helping to clean it up after interrupted animation
-		function cssPath(node) {
-			var nodes = []
-			if ($(node).get(0) == undefined) {
-				return "";
-			}
-			var name = $(node).get(0).nodeName.toLowerCase();
-			if ($(node).attr('id')) {
-				name += '#' + $(node).attr('id');
-			}
-			nodes.push(name);
-			
-			var parents = []
-			while (! ($(node).get(0).nodeName.toLowerCase() == 'html')) {
-				parents.push(node);
-				node = node.parent();
-			}
-			
-			$(parents).each(function () {
-				name = $(this).get(0).nodeName.toLowerCase();
-				if ($(this).attr('id')) {
-					name += '#' + $(this).attr('id');
-				}
-				nodes.push(name);
-			});
-			return nodes.reverse().join(' > ');
-		}	
+	
 		
 		return this.each(function (i) {
 			var $collection = $(collection).clone(); // destination (target) collection
@@ -85,7 +56,6 @@ Github site: http://github.com/razorjack/quicksand
 			var postCallback = function () {
 				if (!postCallbackPerformed) {
 					$sourceParent.html($dest.html()); // put target HTML into visible source container				
-					$("[data-quicksand-owner=" + cssPath($sourceParent) + "]").remove(); // remove all temporary containers
 					if (typeof callbackFunction == 'function') {
 						callbackFunction.call(this);
 					}
@@ -123,37 +93,35 @@ Github site: http://github.com/razorjack/quicksand
 			$(this).stop();	
 			$source.each(function (i) {
 				$(this).stop(); // stop animation of collection items
-				
-				// This doesn't move any element at all, just sets position to absolute
-				// and adjusts top & left to make them compatible with position: absolute
-				$(this)
-				  .css('position', 'absolute')
-				  .css('margin', 0)
-				  .css('top', offsets[i].top - parseFloat($(this).css('margin-top')) - correctionOffset.top)
-				  .css('left', offsets[i].left - parseFloat($(this).css('margin-left')) - correctionOffset.left);
+				var rawObj = $(this).get(0);
+				rawObj.style.position = 'absolute';
+				rawObj.style.margin = '0';
+				rawObj.style.top = offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top + 'px';
+				rawObj.style.left = offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left + 'px';
 			});
 					
 			// create temporary container with destination collection
-			var $dest = $($sourceParent)
-				.clone()
-				.html('')
-				.attr('id', '')
-				.attr("data-quicksand-owner", $sourceParent.selector)
-				.css('height', 'auto')
-				.css('width', $sourceParent.width() + 'px')
-				.append($collection);		
+			var $dest = $($sourceParent).clone()
+				var rawDest = $dest.get(0);
+				rawDest.innerHTML = '';
+				rawDest.setAttribute('id', '');
+				rawDest.style.height = 'auto';
+				rawDest.style.width = $sourceParent.width() + 'px';
+				$dest.append($collection);		
 			// insert node into HTML
 			// Note that the node is under visible source container in the exactly same position
 			// The browser render all the items without showing them (opacity: 0.0)
 			// No offset calculations are needed, the browser just extracts position from underlayered destination items
 			// and sets animation to destination positions.
-			$dest.insertBefore($sourceParent).css('z-index', 1)
-										     .css('opacity', 0.0)
-										     .css('margin', 0.0)
-										     .css('position', 'absolute')
-										     .css('top', offset.top - correctionOffset.top)
-										     .css('left', offset.left - correctionOffset.left)
-											 .attr('data-quicksand-owner', cssPath($sourceParent));		
+			$dest.insertBefore($sourceParent);
+			
+			rawDest.style.zIndex = -1;
+			rawDest.style.opacity = 0.0;
+			rawDest.style.margin = '0';
+			rawDest.style.position = 'absolute';
+			rawDest.style.top = offset.top - correctionOffset.top + 'px';
+			rawDest.style.left = offset.left - correctionOffset.left + 'px';
+	
 			
 			// If destination container has different height than source container
 			// the height can be animated, adjusting it to destination height
@@ -170,10 +138,23 @@ Github site: http://github.com/razorjack/quicksand
 					// It it's under different position, let's move it
 					if ($.browser.msie) {
 						// Got IE and want gorgeous scaling animation?
-						// Kiss my butt
-						$(this).animate({top: destElement.offset().top - correctionOffset.top, left: destElement.offset().left - correctionOffset.left, opacity: 1.0}, options.duration, options.easing, postCallback);
+						// Kiss my ass
+						$(this).animate({top: destElement.offset().top - correctionOffset.top, 
+										 left: destElement.offset().left - correctionOffset.left, 
+										 opacity: 1.0
+										}, 
+											options.duration, 
+											options.easing, 
+											postCallback);
 					} else {
-						$(this).animate({top: destElement.offset().top - correctionOffset.top, left: destElement.offset().left - correctionOffset.left, opacity: 1.0, scale: '1.0'}, options.duration, options.easing, postCallback);
+						$(this).animate({top: destElement.offset().top - correctionOffset.top, 
+										 left: destElement.offset().left - correctionOffset.left, 
+										 opacity: 1.0, 
+										 scale: '1.0'
+										},
+											options.duration, 
+											options.easing, 
+											postCallback);
 					}
 				} else {
 					// The item from source collection is not present in destination collections
@@ -205,18 +186,20 @@ Github site: http://github.com/razorjack/quicksand
 						};
 					}
 					// Let's create it
-					destElement
-					  .clone()
-						.css('position', 'absolute')
-						.css('margin', 0.0)
-						.css('top', destElement.offset().top - correctionOffset.top)
-						.css('left', destElement.offset().left - correctionOffset.left)
-						.css('opacity', 0.0)
-						.css('transform', 'scale(0.0)')
-						.appendTo($sourceParent)
-						.animate(animationOptions, options.duration, options.easing, postCallback);
+					d = destElement.clone();
+					var rawDestElement = d.get(0);
+					rawDestElement.style.position = 'absolute';
+					rawDestElement.style.margin = '0';
+					rawDestElement.style.top = destElement.offset().top - correctionOffset.top + 'px';
+					rawDestElement.style.left = destElement.offset().left - correctionOffset.left + 'px';
+					rawDestElement.style.opacity = 0.0;
+
+					d.css('transform', 'scale(0.0)')
+					 .appendTo($sourceParent)
+					 .animate(animationOptions, options.duration, options.easing, postCallback);
 				}
 			});
+			$dest.remove();
 		});
 	};
 })(jQuery);
