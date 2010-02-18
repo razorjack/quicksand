@@ -17,16 +17,15 @@ Github site: http://github.com/razorjack/quicksand
 */
 
 (function ($) {
-	$.fn.quicksand = function (collection, customOptions) {
+	$.fn.quicksand = function (collection, customOptions) {		
 		var options = {
 			duration: 750,
 			easing: 'swing',
 			attribute: 'data-id', // attribute to recognize same items within source and dest
-			adjustHeight: true // put false if you don't want the plugin to adjust height of container to fit all the items
+			adjustHeight: true, // put false if you don't want the plugin to adjust height of container to fit all the items,
+			selector: '> *'
 		};
 		$.extend(options, customOptions);
-		options.selector = null;
-		$.extend(options, {selector: '> *'});
 		
 		var callbackFunction;
 		if (typeof(arguments[1]) == 'function') {
@@ -37,6 +36,8 @@ Github site: http://github.com/razorjack/quicksand
 	
 		
 		return this.each(function (i) {
+			var val;
+			var animationQueue = []; // used to store all the animation params before starting the animation; solves rapid initial plucks
 			var $collection = $(collection).clone(); // destination (target) collection
 			var $sourceParent = $(this); // source, the visible container of source collection
 			var sourceHeight = $(this).css('height'); // used to keep height and document flow during the animation
@@ -132,45 +133,75 @@ Github site: http://github.com/razorjack/quicksand
 			// Now it's time to do shuffling animation
 			// First of all, we need to identify same elements within source and destination collections	
 			$source.each(function (i) {
-				var destElement = $collection.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
+				var destElement = [];
+				if (typeof(options.attribute) == 'function') {
+					
+					val = options.attribute($(this));
+					$collection.each(function() {
+						if (options.attribute(this) == val) {
+							destElement = $(this);
+							return false;
+						}
+					});
+				} else {
+					destElement = $collection.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
+				}
 				if (destElement.length) {
 					// The item is both in source and destination collections
 					// It it's under different position, let's move it
 					if ($.browser.msie) {
 						// Got IE and want gorgeous scaling animation?
 						// Kiss my ass
-						$(this).animate({top: destElement.offset().top - correctionOffset.top, 
+						animationQueue.push({element: $(this), animation: {top: destElement.offset().top - correctionOffset.top, 
 										 left: destElement.offset().left - correctionOffset.left, 
 										 opacity: 1.0
-										}, 
-											options.duration, 
-											options.easing, 
-											postCallback);
+										}});
+
 					} else {
-						$(this).animate({top: destElement.offset().top - correctionOffset.top, 
+						animationQueue.push({element: $(this), animation: {top: destElement.offset().top - correctionOffset.top, 
 										 left: destElement.offset().left - correctionOffset.left, 
 										 opacity: 1.0, 
 										 scale: '1.0'
-										},
-											options.duration, 
-											options.easing, 
-											postCallback);
+										}});
+
 					}
 				} else {
 					// The item from source collection is not present in destination collections
 					// Let's remove it
 					if ($.browser.msie) {
-						$(this).animate({opacity: '0.0'}, options.duration, options.easing, postCallback);
+						animationQueue.push({element: $(this), animation: {opacity: '0.0'}});
 					} else {
-						$(this).animate({opacity: '0.0', scale: '0.0'}, options.duration, options.easing, postCallback);
+						animationQueue.push({element: $(this), animation: {opacity: '0.0', 
+										 scale: '0.0'}});
 					}
 				}
 			});
 			
 			$collection.each(function (i) {
 				// Grab all items from target collection not present in visible source collection
-				var sourceElement = $source.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
-				var destElement = $collection.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
+				
+				var sourceElement = [];
+				var destElement = [];
+				if (typeof(options.attribute) == 'function') {
+					val = options.attribute($(this));
+					$source.each(function() {
+						if (options.attribute(this) == val) {
+							sourceElement = $(this);
+							return false;
+						}
+					});					
+
+					$collection.each(function() {
+						if (options.attribute(this) == val) {
+							destElement = $(this);
+							return false;
+						}
+					});
+				} else {
+					sourceElement = $source.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
+					destElement = $collection.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
+				}
+				
 				var animationOptions;
 				if (sourceElement.length === 0) {
 					// No such element in source collection...
@@ -196,10 +227,14 @@ Github site: http://github.com/razorjack/quicksand
 
 					d.css('transform', 'scale(0.0)')
 					 .appendTo($sourceParent)
-					 .animate(animationOptions, options.duration, options.easing, postCallback);
+					animationQueue.push({element: $(d), animation: animationOptions});
 				}
 			});
 			$dest.remove();
+
+			for (i = 0; i < animationQueue.length; i++) {
+				animationQueue[i].element.animate(animationQueue[i].animation, options.duration, options.easing, postCallback);
+			}
 		});
 	};
 })(jQuery);
