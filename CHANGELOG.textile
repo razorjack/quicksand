@@ -7,6 +7,7 @@ h2. v1.2
 - added custom attribute functions: instead of providing HTML attribute with unique string, you can specify a function to extract the value: $('#source').quicksand('#dest li', {attribute: function(v) { return $(v).find('img').attr('src')} }); please note that although looks handy, it could be a bit more laggy
 - added useScaling option so that you can disable scaling animation for performance reasons (helps a lot on slower machines)
 - extended adjustHeight capabilities: from now you can set it to dynamic, auto or false
+- greatly improved smoothness of the animation
 
 
 h2. v1.1
