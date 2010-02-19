@@ -1,0 +1,22 @@
+h1. jQuery Quicksand plugin release notes
+
+h2. v1.2
+
+- replacing jQuery .css calls with raw JavaScript .style and removing temporary container improved performance (15%-40% faster) when preparing the animation 
+- solved initial animation slowdowns
+- added custom attribute functions: instead of providing HTML attribute with unique string, you can specify a function to extract the value: $('#source').quicksand('#dest li', {attribute: function(v) { return $(v).find('img').attr('src')} }); please note that although looks handy, it could be a bit more laggy
+- added useScaling option so that you can disable scaling animation for performance reasons (helps a lot on slower machines)
+- extended adjustHeight capabilities: from now you can set it to dynamic, auto or false
+
+
+h2. v1.1
+
+- Fixed issues with position: relative
+- Fixed occasional flickering
+- Moderate performance improvements
+- Disabled any animation in IE6 for more safety
+- Added support for jQuery 1.3
+
+h2. v1.0
+
+First, feature-complete release of jQuery Quicksand plugin.
