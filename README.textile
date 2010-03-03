@@ -111,26 +111,26 @@ Quicksand works fine with other plugins. Please note that:
 * when your items have functional enhancements (eg. tooltips), remember to use callback to apply them on newly cloned objects:
 
 <pre>
-  $("#content").quicksand($("#data > li"), 
-  	{
-  		duration: 1000,
-  	}, function() { // callback function
-  	  $('#content a').tooltip();
-  	}
-  );
+$("#content").quicksand($("#data > li"), 
+	{
+		duration: 1000,
+	}, function() { // callback function
+	  $('#content a').tooltip();
+	}
+);
 </pre>
 
-* when your items are visually enhanced (eg. font replacement), use @enhancement@ function to refresh/apply durin the animation
+* when your items are visually enhanced (eg. font replacement), use @enhancement@ function to refresh/apply during the animation
 
 <pre>
-  $("#content").quicksand($("#data > li"), 
-  	{
-  		duration: 1000,
-  		enhancement: function() {
-  		  Cufon.refresh('#content span');
-  		}
-  	}
-  );
+$("#content").quicksand($("#data > li"), 
+	{
+		duration: 1000,
+		enhancement: function() {
+		  Cufon.refresh('#content span');
+		}
+	}
+);
 </pre>
 
 h2. Licensing
