@@ -1,6 +1,6 @@
 /*
 
-Quicksand 1.2
+Quicksand 1.2.1
 
 Reorder and filter items with a nice shuffling animation.
 
@@ -24,6 +24,7 @@ Github site: http://github.com/razorjack/quicksand
             attribute: 'data-id', // attribute to recognize same items within source and dest
             adjustHeight: 'auto', // 'dynamic' animates height during shuffling (slow), 'auto' adjusts it before or after the animation, false leaves height constant
             useScaling: true, // disable it if you're not using scaling effect or want to improve performance
+            enhancement: function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
             selector: '> *'
         };
         $.extend(options, customOptions);
@@ -66,13 +67,14 @@ Github site: http://github.com/razorjack/quicksand
             var postCallbackPerformed = 0; // prevents the function from being called more than one time
             var postCallback = function () {
                 if (!postCallbackPerformed) {
-                    $sourceParent.html($dest.html()); // put target HTML into visible source container              
+                    $sourceParent.html($dest.html()); // put target HTML into visible source container        
                     if (typeof callbackFunction == 'function') {
                         callbackFunction.call(this);
                     }
                     if (adjustHeightOnCallback) {
                         $sourceParent.css('height', destHeight);
                     }
+                    options.enhancement($sourceParent); // Perform custom visual enhancements on a newly replaced collection
                     postCallbackPerformed = 1;
                 }
             };
@@ -256,17 +258,18 @@ Github site: http://github.com/razorjack/quicksand
                     rawDestElement.style.top = destElement.offset().top - correctionOffset.top + 'px';
                     rawDestElement.style.left = destElement.offset().left - correctionOffset.left + 'px';
                     d.css('opacity', 0.0); // IE
-
                     if (options.useScaling) {
                         d.css('transform', 'scale(0.0)');
                     }
                     d.appendTo($sourceParent);
+                    
                     animationQueue.push({element: $(d), 
                                          animation: animationOptions});
                 }
             });
+            
             $dest.remove();
-
+            options.enhancement($sourceParent); // Perform custom visual enhancements during the animation
             for (i = 0; i < animationQueue.length; i++) {
                 animationQueue[i].element.animate(animationQueue[i].animation, options.duration, options.easing, postCallback);
             }

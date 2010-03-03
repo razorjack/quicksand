@@ -18,7 +18,7 @@ $("#content").quicksand($("#data > li"),
 		// all the parameters have sensible defaults
 		// and in most cases can be optional
 		duration: 1000,
-		easing: "easeInOutQuad",
+		easing: "swing",
 		attribute: "data-id",
 	}
 );
@@ -50,12 +50,14 @@ Please note that you need to set additional attribute (you can specify which one
 
 No additional CSS is required for the plugin to work. However, you should avoid styling the subject container using id selectors --- please use class instead.
 
-* the subject (#content) is a container visible for the user
-* the first parameter ( $("#data > li") ) should contain a collection which will replace contents of the subject
-* @duration@ - specifies duration (in milliseconds) of the animation effect, default: 750
-* @easing@ - animation easing effect, default: swing
-* @attribute@ - attribute containing unique value able to identify same item within source and destination collection, default: data-id
-* @adjustHeight@ - put false if you don't want to change the subject's height during the process, default: true
+* the subject (@#content@) is a container visible for the user
+* the first parameter ( @$("#data > li")@ ) should contain a collection which will replace contents of the subject
+* @duration@ - specifies duration (in milliseconds) of the animation effect, default: @750@
+* @easing@ - animation easing effect, default: @'swing'@
+* @attribute@ - attribute containing unique value able to identify same item within source and destination collection, default: @'data-id'@
+* @adjustHeight@ - @'dynamic'@ to animate height of the container (when the target collection is larger or smaller than source collection), @'auto'@ to automatically set height before or after the animation, @false@ to keep container height constant; default: @'auto'@
+* @useScaling@ - use CSS3 scaling effect, default: true
+* @enhancement@ - function that performs custom visual enhancements (eg. font replacements) on newly created items, default: @function() {}@
 
 You can specify a callback function as an optional last argument.
 
@@ -77,9 +79,59 @@ Tested under:
 * Internet Explorer 7
 * Internet Explorer 8
 
-No Internet Explorer 6 support is planned. Ever.
+No Internet Explorer 6 support is planned. Ever. The plugin, however, does not break your web application on IE6, it just skips the animation and replaces the collection immediately.
 
 I recommend using the plugin with HTML5 markup but any other option is fine.
+
+h2. Custom attribute function
+
+If you don't like HTML5 data-* attributes, you can specify a function instead.
+
+<pre>
+$("#content").quicksand($("#data > li"), 
+	{
+		// all the parameters have sensible defaults
+		// and in most cases can be optional
+		duration: 1000,
+		easing: "swing",
+		attribute: "data-id",
+		attribute: function(v) {
+		  // different src of img means: different object
+      return $(v).find('img').attr('src');
+    }
+	}
+);
+
+</pre>
+
+h2. Integration with enhancement plugins
+
+Quicksand works fine with other plugins. Please note that:
+
+* when your items have functional enhancements (eg. tooltips), remember to use callback to apply them on newly cloned objects:
+
+<pre>
+  $("#content").quicksand($("#data > li"), 
+  	{
+  		duration: 1000,
+  	}, function() { // callback function
+  	  $('#content a').tooltip();
+  	}
+  );
+</pre>
+
+* when your items are visually enhanced (eg. font replacement), use @enhancement@ function to refresh/apply durin the animation
+
+<pre>
+  $("#content").quicksand($("#data > li"), 
+  	{
+  		duration: 1000,
+  		enhancement: function() {
+  		  Cufon.refresh('#content span');
+  		}
+  	}
+  );
+</pre>
 
 h2. Licensing
 

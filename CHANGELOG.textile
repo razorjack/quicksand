@@ -1,5 +1,9 @@
 h1. jQuery Quicksand plugin release notes
 
+h2. v1.2.1
+
+- added @enhancement@ option, making it possible to easily integrate Quicksand with visual enhancements such as font replacement
+
 h2. v1.2
 
 - replacing jQuery .css calls with raw JavaScript .style and removing temporary container improved performance (15%-40% faster) when preparing the animation 
