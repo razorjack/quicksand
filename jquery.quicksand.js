@@ -99,10 +99,15 @@ Github site: http://github.com/razorjack/quicksand
             }
             
             // perform custom corrections from options (use when Quicksand fails to detect proper correction)
+            if (isNaN(correctionOffset.left)) {
+                correctionOffset.left = 0;
+            }
+            if (isNaN(correctionOffset.top)) {
+                correctionOffset.top = 0;
+            }
+            
             correctionOffset.left -= options.dx;
             correctionOffset.top -= options.dy;
-            
-
 
             // keeps nodes after source container, holding their position
             $sourceParent.css('height', $(this).height());
@@ -128,6 +133,7 @@ Github site: http://github.com/razorjack/quicksand
 
                 rawObj.style.position = 'absolute';
                 rawObj.style.margin = '0';
+
                 rawObj.style.top = (offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top + dy) + 'px';
                 rawObj.style.left = (offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left + dx) + 'px';
             });
