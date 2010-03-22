@@ -25,7 +25,9 @@ Github site: http://github.com/razorjack/quicksand
             adjustHeight: 'auto', // 'dynamic' animates height during shuffling (slow), 'auto' adjusts it before or after the animation, false leaves height constant
             useScaling: true, // disable it if you're not using scaling effect or want to improve performance
             enhancement: function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
-            selector: '> *'
+            selector: '> *',
+            dx: 0,
+            dy: 0
         };
         $.extend(options, customOptions);
         
@@ -95,6 +97,11 @@ Github site: http://github.com/razorjack/quicksand
                 correctionOffset.top -= parseFloat($correctionParent.css('margin-top'));
                 correctionOffset.left -= parseFloat($correctionParent.css('margin-left'));
             }
+            
+            // perform custom corrections from options (use when Quicksand fails to detect proper correction)
+            correctionOffset.left -= options.dx;
+            correctionOffset.top -= options.dy;
+            
 
 
             // keeps nodes after source container, holding their position
@@ -106,15 +113,23 @@ Github site: http://github.com/razorjack/quicksand
             });
             
             // stops previous animations on source container
-            $(this).stop(); 
+            $(this).stop();
+            var dx = 0; var dy = 0;
             $source.each(function (i) {
                 $(this).stop(); // stop animation of collection items
                 var rawObj = $(this).get(0);
+                if (rawObj.style.position == 'absolute') {
+                    dx = -options.dx;
+                    dy = -options.dy;
+                } else {
+                    dx = options.dx;
+                    dy = options.dy;                    
+                }
 
                 rawObj.style.position = 'absolute';
                 rawObj.style.margin = '0';
-                rawObj.style.top = (offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top) + 'px';
-                rawObj.style.left = (offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left) + 'px';
+                rawObj.style.top = (offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top + dy) + 'px';
+                rawObj.style.left = (offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left + dx) + 'px';
             });
                     
             // create temporary container with destination collection
