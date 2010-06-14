@@ -42,12 +42,11 @@ Github site: http://github.com/razorjack/quicksand
         } else if (typeof(arguments[2] == 'function')) {
             var callbackFunction = arguments[2];
         }
-    
         
         return this.each(function (i) {
             var val;
             var animationQueue = []; // used to store all the animation params before starting the animation; solves initial animation slowdowns
-            var $collection = $(collection).clone(); // destination (target) collection
+            var $collection = $(collection).filter('[' + options.attribute + ']').clone(); // destination (target) collection
             var $sourceParent = $(this); // source, the visible container of source collection
             var sourceHeight = $(this).css('height'); // used to keep height and document flow during the animation
             
@@ -64,7 +63,7 @@ Github site: http://github.com/razorjack/quicksand
                 $sourceParent.html('').append($collection);
                 return;
             }
-
+            
             // Gets called when any animation is finished
             var postCallbackPerformed = 0; // prevents the function from being called more than one time
             var postCallback = function () {
@@ -86,7 +85,7 @@ Github site: http://github.com/razorjack/quicksand
             var correctionOffset = $correctionParent.offset();
             if ($correctionParent.css('position') == 'relative') {
                 if ($correctionParent.get(0).nodeName.toLowerCase() == 'body') {
-
+                    
                 } else {
                     correctionOffset.top += parseFloat($correctionParent.css('border-top-width'));
                     correctionOffset.left += parseFloat($correctionParent.css('border-left-width'));
@@ -108,7 +107,7 @@ Github site: http://github.com/razorjack/quicksand
             
             correctionOffset.left -= options.dx;
             correctionOffset.top -= options.dy;
-
+            
             // keeps nodes after source container, holding their position
             $sourceParent.css('height', $(this).height());
             
@@ -130,14 +129,14 @@ Github site: http://github.com/razorjack/quicksand
                     dx = options.dx;
                     dy = options.dy;                    
                 }
-
+                
                 rawObj.style.position = 'absolute';
                 rawObj.style.margin = '0';
-
+                
                 rawObj.style.top = (offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top + dy) + 'px';
                 rawObj.style.left = (offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left + dx) + 'px';
             });
-                    
+            
             // create temporary container with destination collection
             var $dest = $($sourceParent).clone();
             var rawDest = $dest.get(0);
@@ -160,10 +159,6 @@ Github site: http://github.com/razorjack/quicksand
             rawDest.style.top = offset.top - correctionOffset.top + 'px';
             rawDest.style.left = offset.left - correctionOffset.left + 'px';
             
-            
-    
-            
-
             if (options.adjustHeight === 'dynamic') {
                 // If destination container has different height than source container
                 // the height can be animated, adjusting it to destination height
@@ -178,7 +173,7 @@ Github site: http://github.com/razorjack/quicksand
                     adjustHeightOnCallback = true;
                 }
             }
-                
+            
             // Now it's time to do shuffling animation
             // First of all, we need to identify same elements within source and destination collections    
             $source.each(function (i) {
@@ -208,7 +203,6 @@ Github site: http://github.com/razorjack/quicksand
                                                      opacity: 1.0
                                                     }
                                             });
-
                     } else {
                         animationQueue.push({
                                             element: $(this), 
@@ -218,7 +212,6 @@ Github site: http://github.com/razorjack/quicksand
                                                         scale: '1.0'
                                                        }
                                             });
-
                     }
                 } else {
                     // The item from source collection is not present in destination collections
@@ -245,8 +238,8 @@ Github site: http://github.com/razorjack/quicksand
                             sourceElement = $(this);
                             return false;
                         }
-                    });                 
-
+                    });
+                    
                     $collection.each(function() {
                         if (options.attribute(this) == val) {
                             destElement = $(this);
@@ -259,7 +252,7 @@ Github site: http://github.com/razorjack/quicksand
                 }
                 
                 var animationOptions;
-                if (sourceElement.length === 0) {
+                if (sourceElement.length === 0 && destElement.length > 0) {
                     // No such element in source collection...
                     if (!options.useScaling) {
                         animationOptions = {
