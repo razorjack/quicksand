@@ -27,7 +27,8 @@ Github site: http://github.com/razorjack/quicksand
             enhancement: function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
             selector: '> *',
             dx: 0,
-            dy: 0
+            dy: 0,
+            maxWidth: 0
         };
         $.extend(options, customOptions);
         
@@ -38,9 +39,9 @@ Github site: http://github.com/razorjack/quicksand
         
         var callbackFunction;
         if (typeof(arguments[1]) == 'function') {
-            var callbackFunction = arguments[1];
+            callbackFunction = arguments[1];
         } else if (typeof(arguments[2] == 'function')) {
-            var callbackFunction = arguments[2];
+            callbackFunction = arguments[2];
         }
         
         return this.each(function (i) {
@@ -143,6 +144,9 @@ Github site: http://github.com/razorjack/quicksand
                 
                 rawObj.style.top = (offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top + dy) + 'px';
                 rawObj.style.left = (offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left + dx) + 'px';
+
+                if (options.maxWidth > 0 || offsets[i].left > options.maxWidth)
+                  rawObj.style.display = 'none';
             });
             
             // create temporary container with destination collection
@@ -184,7 +188,7 @@ Github site: http://github.com/razorjack/quicksand
             
             // Now it's time to do shuffling animation
             // First of all, we need to identify same elements within source and destination collections    
-            $source.each(function (i) {
+            $source.each(function () {
                 var destElement = [];
                 if (typeof(options.attribute) == 'function') {
                     
@@ -234,7 +238,7 @@ Github site: http://github.com/razorjack/quicksand
                 }
             });
             
-            $collection.each(function (i) {
+            $collection.each(function () {
                 // Grab all items from target collection not present in visible source collection
                 
                 var sourceElement = [];
@@ -273,20 +277,25 @@ Github site: http://github.com/razorjack/quicksand
                         };
                     }
                     // Let's create it
-                    d = destElement.clone();
+                    var d = destElement.clone();
                     var rawDestElement = d.get(0);
                     rawDestElement.style.position = 'absolute';
                     rawDestElement.style.margin = '0';
                     rawDestElement.style.top = destElement.offset().top - correctionOffset.top + 'px';
                     rawDestElement.style.left = destElement.offset().left - correctionOffset.left + 'px';
+
                     d.css('opacity', 0.0); // IE
                     if (options.useScaling) {
                         d.css('transform', 'scale(0.0)');
                     }
                     d.appendTo($sourceParent);
                     
-                    animationQueue.push({element: $(d), 
-                                         animation: animationOptions});
+                    if (options.maxWidth == 0 || destElement.offset().left < options.maxWidth) {
+                      animationQueue.push({element: $(d),
+                                           animation: animationOptions});
+                    } else {
+                      
+                    }
                 }
             });
             
