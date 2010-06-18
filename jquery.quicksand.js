@@ -285,8 +285,6 @@ Github site: http://github.com/razorjack/quicksand
                     if (options.maxWidth == 0 || destElement.offset().left < options.maxWidth) {
                       animationQueue.push({element: $(d),
                                            animation: animationOptions});
-                    } else {
-                      
                     }
                 }
             });
