@@ -1,5 +1,10 @@
 h1. jQuery Quicksand plugin release notes
 
+h2. v1.2.2
+
+- fixed Internet Explorer NaN issue
+- fixed blinking in webkit-based browsers caused by callback race conditions
+
 h2. v1.2.1
 
 - added @enhancement@ option, making it possible to easily integrate Quicksand with visual enhancements such as font replacement
