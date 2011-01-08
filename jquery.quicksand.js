@@ -68,16 +68,24 @@ Github site: http://github.com/razorjack/quicksand
             // Gets called when any animation is finished
             var postCallbackPerformed = 0; // prevents the function from being called more than one time
             var postCallback = function () {
+                
                 if (!postCallbackPerformed) {
-                    $sourceParent.html($dest.html()); // put target HTML into visible source container        
-                    if (typeof callbackFunction == 'function') {
-                        callbackFunction.call(this);
-                    }
+                    postCallbackPerformed = 1;
+                    
+                    // hack: 
+                    // used to be: $sourceParent.html($dest.html()); // put target HTML into visible source container
+                    // but new webkit builds cause flickering when replacing the collections
+                    $toDelete = $sourceParent.find('> *');
+                    $sourceParent.prepend($dest.find('> *'));
+                    $toDelete.remove();
+                         
                     if (adjustHeightOnCallback) {
                         $sourceParent.css('height', destHeight);
                     }
                     options.enhancement($sourceParent); // Perform custom visual enhancements on a newly replaced collection
-                    postCallbackPerformed = 1;
+                    if (typeof callbackFunction == 'function') {
+                        callbackFunction.call(this);
+                    }                    
                 }
             };
             
@@ -88,14 +96,14 @@ Github site: http://github.com/razorjack/quicksand
                 if ($correctionParent.get(0).nodeName.toLowerCase() == 'body') {
 
                 } else {
-                    correctionOffset.top += parseFloat($correctionParent.css('border-top-width'));
-                    correctionOffset.left += parseFloat($correctionParent.css('border-left-width'));
+                    correctionOffset.top += (parseFloat($correctionParent.css('border-top-width')) || 0);
+                    correctionOffset.left +=( parseFloat($correctionParent.css('border-left-width')) || 0);
                 }
             } else {
-                correctionOffset.top -= parseFloat($correctionParent.css('border-top-width'));
-                correctionOffset.left -= parseFloat($correctionParent.css('border-left-width'));
-                correctionOffset.top -= parseFloat($correctionParent.css('margin-top'));
-                correctionOffset.left -= parseFloat($correctionParent.css('margin-left'));
+                correctionOffset.top -= (parseFloat($correctionParent.css('border-top-width')) || 0);
+                correctionOffset.left -= (parseFloat($correctionParent.css('border-left-width')) || 0);
+                correctionOffset.top -= (parseFloat($correctionParent.css('margin-top')) || 0);
+                correctionOffset.left -= (parseFloat($correctionParent.css('margin-left')) || 0);
             }
             
             // perform custom corrections from options (use when Quicksand fails to detect proper correction)
