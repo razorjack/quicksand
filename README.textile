@@ -58,6 +58,8 @@ No additional CSS is required for the plugin to work. However, you should avoid 
 * @adjustHeight@ - @'dynamic'@ to animate height of the container (when the target collection is larger or smaller than source collection), @'auto'@ to automatically set height before or after the animation, @false@ to keep container height constant; default: @'auto'@
 * @useScaling@ - use CSS3 scaling effect, default: true
 * @enhancement@ - function that performs custom visual enhancements (eg. font replacements) on newly created items, default: @function() {}@
+* @queue@ - manager if user want to run the animations in parallel(set it to false) or not (set it to true).
+* @function@ - Function that must be to return the duration time. This function receive the @duration@ as unique parameter. (Example: you can use it with Gauss function in http://vorlon.case.edu/~vxl11/software/gauss.html)
 
 You can specify a callback function as an optional last argument.
 
