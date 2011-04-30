@@ -337,7 +337,7 @@ Github site: http://github.com/razorjack/quicksand
                           position: 'relative', top: (animationQueue[i].style.top - offset.top),
                           left: (animationQueue[i].style.left - offset.left)});
 
-                        destElement.animate({top: "", left: ""}, options.duration, options.easing, postCallback);
+                        destElement.animate({top: "0", left: "0"}, options.duration, options.easing, postCallback);
                     } else {
                         animationQueue[i].element.animate(animationQueue[i].animation, options.duration, options.easing, postCallback);
                     }
