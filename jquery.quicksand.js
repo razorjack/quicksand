@@ -201,7 +201,7 @@ Github site: http://github.com/razorjack/quicksand
                         }
                     });
                 } else {
-                    destElement = $collection.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
+                    destElement = $collection.filter('[' + options.attribute + '="' + $(this).attr(options.attribute) + '"]');
                 }
                 if (destElement.length) {
                     // The item is both in source and destination collections
@@ -262,8 +262,8 @@ Github site: http://github.com/razorjack/quicksand
                         }
                     });
                 } else {
-                    sourceElement = $source.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
-                    destElement = $collection.filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
+                    sourceElement = $source.filter('[' + options.attribute + '="' + $(this).attr(options.attribute) + '"]');
+                    destElement = $collection.filter('[' + options.attribute + '="' + $(this).attr(options.attribute) + '"]');
                 }
                 
                 var animationOptions;
