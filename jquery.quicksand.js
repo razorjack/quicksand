@@ -1,6 +1,6 @@
 /*
 
-Quicksand 1.2.2
+Quicksand 1.2.3b
 
 Reorder and filter items with a nice shuffling animation.
 
@@ -19,15 +19,17 @@ Github site: http://github.com/razorjack/quicksand
 (function ($) {
     $.fn.quicksand = function (collection, customOptions) {     
         var options = {
-            duration: 750,
-            easing: 'swing',
-            attribute: 'data-id', // attribute to recognize same items within source and dest
-            adjustHeight: 'auto', // 'dynamic' animates height during shuffling (slow), 'auto' adjusts it before or after the animation, false leaves height constant
-            useScaling: true, // disable it if you're not using scaling effect or want to improve performance
-            enhancement: function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
-            selector: '> *',
-            dx: 0,
-            dy: 0
+            'duration': 750,
+            'easing': 'swing',
+            'attribute': 'data-id', // attribute to recognize same items within source and dest
+            'adjustHeight': 'auto', // 'dynamic' animates height during shuffling (slow), 'auto' adjusts it before or after the animation, false leaves height constant
+            'useScaling': true, // disable it if you're not using scaling effect or want to improve performance
+            'enhancement': function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
+            'selector': '> *',
+            'dx': 0,
+            'dy': 0,
+            'queue': true, // If you need that Quicksand run in parallel with other animation, then set it in false.
+            'durationFilter': null // Function that must be to return the duration time. (Example: you can use it with Gauss function in http://vorlon.case.edu/~vxl11/software/gauss.html)
         };
         $.extend(options, customOptions);
         
@@ -175,7 +177,9 @@ Github site: http://github.com/razorjack/quicksand
             if (options.adjustHeight === 'dynamic') {
                 // If destination container has different height than source container
                 // the height can be animated, adjusting it to destination height
-                $sourceParent.animate({height: $dest.height()}, options.duration, options.easing);
+                $sourceParent.animate(
+                    {height: $dest.height()},
+                    {'duration': options.duration, 'easing': options.easing, 'queue': options.queue});
             } else if (options.adjustHeight === 'auto') {
                 destHeight = $dest.height();
                 if (parseFloat(sourceHeight) < parseFloat(destHeight)) {
@@ -299,8 +303,15 @@ Github site: http://github.com/razorjack/quicksand
             
             $dest.remove();
             options.enhancement($sourceParent); // Perform custom visual enhancements during the animation
+            var duration = options.duration;
             for (i = 0; i < animationQueue.length; i++) {
-                animationQueue[i].element.animate(animationQueue[i].animation, options.duration, options.easing, postCallback);
+                // If was defined, call to durationFilter function to get the animation timer.
+                if ('function' == typeof(options.durationFilter)) {
+                    duration = options.durationFilter(options.duration);
+                }
+                animationQueue[i].element.animate(
+                    animationQueue[i].animation,
+                    {'duration': duration, 'easing': options.easing, 'complete': postCallback, 'queue': options.queue});
             }
         });
     };

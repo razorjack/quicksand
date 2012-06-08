@@ -1,5 +1,10 @@
 h1. jQuery Quicksand plugin release notes
 
+h2. v1.2.3b
+- queue: to manager if user want to run the animations in parallel(false) or not (true).
+- durationFilter: Function to call for getting the timer. User when user want to use differents timers for every object.
+
+
 h2. v1.2.2
 
 - fixed Internet Explorer NaN issue
