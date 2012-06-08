@@ -26,6 +26,7 @@ Github site: http://github.com/razorjack/quicksand
             useScaling: true, // disable it if you're not using scaling effect or want to improve performance
             enhancement: function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
             selector: '> *',
+            atomic: false,
             dx: 0,
             dy: 0
         };
@@ -72,15 +73,17 @@ Github site: http://github.com/razorjack/quicksand
                 if (!postCallbackPerformed) {
                     postCallbackPerformed = 1;
                     
-                    // hack: 
-                    // used to be: $sourceParent.html($dest.html()); // put target HTML into visible source container
-                    // but new webkit builds cause flickering when replacing the collections
-                    $toDelete = $sourceParent.find('> *');
-                    $sourceParent.prepend($dest.find('> *'));
-                    $toDelete.remove();
-                         
-                    if (adjustHeightOnCallback) {
-                        $sourceParent.css('height', destHeight);
+                    if (!options.atomic) {
+                        // hack:
+                        // used to be: $sourceParent.html($dest.html()); // put target HTML into visible source container
+                        // but new webkit builds cause flickering when replacing the collections
+                        $toDelete = $sourceParent.find('> *');
+                        $sourceParent.prepend($dest.find('> *'));
+                        $toDelete.remove();
+
+                        if (adjustHeightOnCallback) {
+                            $sourceParent.css('height', destHeight);
+                        }
                     }
                     options.enhancement($sourceParent); // Perform custom visual enhancements on a newly replaced collection
                     if (typeof callbackFunction == 'function') {
@@ -209,20 +212,29 @@ Github site: http://github.com/razorjack/quicksand
                     if (!options.useScaling) {
                         animationQueue.push(
                                             {
-                                                element: $(this), 
-                                                animation: 
-                                                    {top: destElement.offset().top - correctionOffset.top, 
-                                                     left: destElement.offset().left - correctionOffset.left, 
-                                                     opacity: 1.0
-                                                    }
+                                                element: $(this),
+                                                dest: destElement,
+                                                style: {top: $(this).offset().top,
+                                                        left: $(this).offset().left,
+                                                        opacity: ""
+                                                },
+                                                animation: {top: destElement.offset().top - correctionOffset.top,
+                                                             left: destElement.offset().left - correctionOffset.left,
+                                                             opacity: 1.0
+                                                            }
                                             });
 
                     } else {
                         animationQueue.push({
-                                            element: $(this), 
-                                            animation: {top: destElement.offset().top - correctionOffset.top, 
-                                                        left: destElement.offset().left - correctionOffset.left, 
-                                                        opacity: 1.0, 
+                                            element: $(this),
+                                            dest: destElement,
+                                            style: {top: $(this).offset().top,
+                                                    left: $(this).offset().left,
+                                                    opacity: ""
+                                            },
+                                            animation: {top: destElement.offset().top - correctionOffset.top,
+                                                        left: destElement.offset().left - correctionOffset.left,
+                                                        opacity: 1.0,
                                                         scale: '1.0'
                                                        }
                                             });
@@ -232,10 +244,19 @@ Github site: http://github.com/razorjack/quicksand
                     // The item from source collection is not present in destination collections
                     // Let's remove it
                     if (!options.useScaling) {
-                        animationQueue.push({element: $(this), 
+                        animationQueue.push({element: $(this),
+                                             style: {top: $(this).offset().top,
+                                                    left: $(this).offset().left,
+                                                    opacity: ""
+                                             },
                                              animation: {opacity: '0.0'}});
                     } else {
-                        animationQueue.push({element: $(this), animation: {opacity: '0.0', 
+                        animationQueue.push({element: $(this),
+                                         animation: {opacity: '0.0',
+                                         style: {top: $(this).offset().top,
+                                                 left: $(this).offset().left,
+                                                  opacity: ""
+                                         },
                                          scale: '0.0'}});
                     }
                 }
@@ -293,14 +314,35 @@ Github site: http://github.com/razorjack/quicksand
                     d.appendTo($sourceParent);
                     
                     animationQueue.push({element: $(d), 
+                                         dest: destElement,
                                          animation: animationOptions});
                 }
             });
             
             $dest.remove();
-            options.enhancement($sourceParent); // Perform custom visual enhancements during the animation
-            for (i = 0; i < animationQueue.length; i++) {
-                animationQueue[i].element.animate(animationQueue[i].animation, options.duration, options.easing, postCallback);
+            if (!options.atomic) {
+                options.enhancement($sourceParent); // Perform custom visual enhancements during the animation
+                for (i = 0; i < animationQueue.length; i++) {
+                    animationQueue[i].element.animate(animationQueue[i].animation, options.duration, options.easing, postCallback);
+                }
+            } else {
+                $toDelete = $sourceParent.find('> *');
+                $sourceParent.prepend($dest.find('> *'));
+                for (i = 0; i < animationQueue.length; i++) {
+                    if (animationQueue[i].dest && animationQueue[i].style) {
+                        var destElement = animationQueue[i].dest;
+                        var offset = destElement.offset();
+
+                        destElement.css({
+                          position: 'relative', top: (animationQueue[i].style.top - offset.top),
+                          left: (animationQueue[i].style.left - offset.left)});
+
+                        destElement.animate({top: "0", left: "0"}, options.duration, options.easing, postCallback);
+                    } else {
+                        animationQueue[i].element.animate(animationQueue[i].animation, options.duration, options.easing, postCallback);
+                    }
+                }
+                $toDelete.remove();
             }
         });
     };
