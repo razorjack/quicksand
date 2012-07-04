@@ -61,6 +61,8 @@ Github site: http://github.com/razorjack/quicksand
             
             var $source = $(this).find(options.selector); // source collection items
             
+            var width = $($source).innerWidth();  // need for the responsive design   
+
             // Replace the collection and quit if IE6
             if ($.browser.msie && $.browser.version.substr(0,1)<7) {
                 $sourceParent.html('').append($collection);
@@ -146,11 +148,14 @@ Github site: http://github.com/razorjack/quicksand
                 }
 
                 rawObj.style.position = 'absolute';
-                rawObj.style.margin = '0';
+                rawObj.style.margin = '0'; 
+
 				if (!options.adjustWidth)
 				{
                 	rawObj.style.width = sourceWidth;
 				}
+
+                rawObj.style.width = (width + 'px'); // sets the width to the current element with even if it has been changed by a responsive design
 
                 rawObj.style.top = (offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top + dy) + 'px';
                 rawObj.style.left = (offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left + dx) + 'px';
@@ -309,6 +314,7 @@ Github site: http://github.com/razorjack/quicksand
                     var rawDestElement = d.get(0);
                     rawDestElement.style.position = 'absolute';
                     rawDestElement.style.margin = '0';
+                    rawDestElement.style.width = width + 'px'; // sets the width to the current element with even if it has been changed by a responsive design  
                     rawDestElement.style.top = destElement.offset().top - correctionOffset.top + 'px';
                     rawDestElement.style.left = destElement.offset().left - correctionOffset.left + 'px';
                     d.css('opacity', 0.0); // IE
