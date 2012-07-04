@@ -23,6 +23,7 @@ Github site: http://github.com/razorjack/quicksand
             easing: 'swing',
             attribute: 'data-id', // attribute to recognize same items within source and dest
             adjustHeight: 'auto', // 'dynamic' animates height during shuffling (slow), 'auto' adjusts it before or after the animation, false leaves height constant
+            adjustWidth: 'auto', // 'dynamic' animates width during shuffling (slow), 'auto' adjusts it before or after the animation, false leaves width constant
             useScaling: true, // disable it if you're not using scaling effect or want to improve performance
             enhancement: function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
             selector: '> *',
@@ -50,9 +51,10 @@ Github site: http://github.com/razorjack/quicksand
             var $collection = $(collection).clone(); // destination (target) collection
             var $sourceParent = $(this); // source, the visible container of source collection
             var sourceHeight = $(this).css('height'); // used to keep height and document flow during the animation
-            
-            var destHeight;
+            var sourceWidth = $(this).css('width'); // used to keep width and document flow during the animation
+            var destHeight, destWidth;
             var adjustHeightOnCallback = false;
+            var adjustWidthOnCallback = false;
             
             var offset = $($sourceParent).offset(); // offset of visible container, used in animation calculations
             var offsets = []; // coordinates of every source collection item            
@@ -81,6 +83,9 @@ Github site: http://github.com/razorjack/quicksand
                          
                     if (adjustHeightOnCallback) {
                         $sourceParent.css('height', destHeight);
+                    }
+                    if (adjustWidthOnCallback) {
+                        $sourceParent.css('width', sourceWidth);
                     }
                     options.enhancement($sourceParent); // Perform custom visual enhancements on a newly replaced collection
                     if (typeof callbackFunction == 'function') {
@@ -119,6 +124,7 @@ Github site: http://github.com/razorjack/quicksand
 
             // keeps nodes after source container, holding their position
             $sourceParent.css('height', $(this).height());
+            $sourceParent.css('width', $(this).width());
             
             // get positions of source collections
             $source.each(function (i) {
@@ -141,6 +147,10 @@ Github site: http://github.com/razorjack/quicksand
 
                 rawObj.style.position = 'absolute';
                 rawObj.style.margin = '0';
+				if (!options.adjustWidth)
+				{
+                	rawObj.style.width = sourceWidth;
+				}
 
                 rawObj.style.top = (offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top + dy) + 'px';
                 rawObj.style.left = (offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left + dx) + 'px';
@@ -184,6 +194,21 @@ Github site: http://github.com/razorjack/quicksand
                 } else {
                     //  Adjust later, on callback
                     adjustHeightOnCallback = true;
+                }
+            }
+            
+            if (options.adjustWidth === 'dynamic') {
+                // If destination container has different width than source container
+                // the width can be animated, adjusting it to destination width
+                $sourceParent.animate({width: $dest.width()}, options.duration, options.easing);
+            } else if (options.adjustWidth === 'auto') {
+                destWidth = $dest.width();                
+                if (parseFloat(sourceWidth) < parseFloat(destWidth)) {
+                    // Adjust the height now so that the items don't move out of the container
+                    $sourceParent.css('width', destWidth);
+                } else {
+                    //  Adjust later, on callback
+                    adjustWidthOnCallback = true;
                 }
             }
                 
