@@ -1,3 +1,7 @@
+h1. Forked
+
+This fork was created to allow for re-use of visible elements rather than replacing them with the new incoming elements (via AJAX).
+
 h1. Quicksand
 
 jQuery plugin for reordering and filtering items with a nice shuffling animation like the one "in this video":http://www.viddler.com/explore/37signals/videos/90/8.805/.
