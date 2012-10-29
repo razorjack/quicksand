@@ -65,7 +65,7 @@ Github site: http://github.com/razorjack/quicksand
             var width = $($source).innerWidth();  // need for the responsive design
 
             // Replace the collection and quit if IE6
-            if ($.browser.msie && $.browser.version.substr(0,1)<7) {
+            if ($.browser.msie && parseInt($.browser.version) < 7) {
                 $sourceParent.html('').append($collection);
                 return;
             }
