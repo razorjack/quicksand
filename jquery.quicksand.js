@@ -24,7 +24,7 @@ Github site: http://github.com/razorjack/quicksand
             attribute: 'data-id', // attribute to recognize same items within source and dest
             adjustHeight: 'auto', // 'dynamic' animates height during shuffling (slow), 'auto' adjusts it before or after the animation, false leaves height constant
             adjustWidth: 'auto', // 'dynamic' animates width during shuffling (slow), 'auto' adjusts it before or after the animation, false leaves width constant
-            useScaling: true, // disable it if you're not using scaling effect or want to improve performance
+            useScaling: false, // enable it if you're using scaling effect
             enhancement: function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
             selector: '> *',
             atomic: false,
@@ -82,16 +82,16 @@ Github site: http://github.com/razorjack/quicksand
 						// hack: 
 						// used to be: $sourceParent.html($dest.html()); // put target HTML into visible source container
 						// but new webkit builds cause flickering when replacing the collections
-						var $toDelete = $sourceParent.find('> *');
+						var $toDelete = $sourceParent.find(options.selector);
 						if (!options.retainExisting) {
-						  $sourceParent.prepend($dest.find('> *'));
+						  $sourceParent.prepend($dest.find(options.selector));
 						  $toDelete.remove();
 						} else {
 						  // Avoid replacing elements because we may have already altered items in significant
 						  // ways and it would be bad to have to do it again. (i.e. lazy load images) But $dest holds the
 						  // correct ordering. So we must re-sequence items in $sourceParent to match.
 						  var $keepElements = $([]);
-						  $dest.find('> *').each(function(i) {
+						  $dest.find(options.selector).each(function(i) {
 							var $matchedElement = $([]);
 							if (typeof(options.attribute) == 'function') {
 							  var val = options.attribute($(this));
@@ -102,7 +102,7 @@ Github site: http://github.com/razorjack/quicksand
 								}
 							  });
 							} else {
-							  $matchedElement = $toDelete.find('> *').filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
+							  $matchedElement = $toDelete.filter('[' + options.attribute + '="' + $(this).attr(options.attribute) + '"]');
 							}
 							if ($matchedElement.length > 0) {
 							  // There is a matching element in the $toDelete list and in $dest list, so make sure
@@ -112,14 +112,14 @@ Github site: http://github.com/razorjack/quicksand
 							  if (i === 0) {
 								$sourceParent.prepend($matchedElement);
 							  } else {
-								$matchedElement.insertAfter($sourceParent.find('> *').get(i - 1));
+								$matchedElement.insertAfter($sourceParent.find(options.selector).get(i - 1));
 							  }
 							}
 						  });
 						  // Remove whatever is remaining from the DOM
 						  $toDelete.not($keepElements).remove();
 						  // Remove all element styles added for the animation. @todo restore original values?
-						  $sourceParent.find('> *').removeAttr('style').addClass('testing');
+						  $sourceParent.find(options.selector).removeAttr('style').addClass('testing');
 						}
 
 						if (adjustHeightOnCallback) {
@@ -198,7 +198,7 @@ Github site: http://github.com/razorjack/quicksand
                 rawObj.style.top = (offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top + dy) + 'px';
                 rawObj.style.left = (offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left + dx) + 'px';
 
-                if (options.maxWidth > 0 || offsets[i].left > options.maxWidth)
+                if (options.maxWidth > 0 && offsets[i].left > options.maxWidth)
                   rawObj.style.display = 'none';
             });
 
@@ -399,8 +399,8 @@ Github site: http://github.com/razorjack/quicksand
                 	}
 				}
             } else {
-                $toDelete = $sourceParent.find('> *');
-                $sourceParent.prepend($dest.find('> *'));
+                $toDelete = $sourceParent.find(optins.selector);
+                $sourceParent.prepend($dest.find(options.selector));
                 for (i = 0; i < animationQueue.length; i++) {
                     if (animationQueue[i].dest && animationQueue[i].style) {
                         var destElement = animationQueue[i].dest;
