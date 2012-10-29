@@ -1,7 +1,6 @@
 /*
 
 Quicksand 1.2.2
-          1.2.2-forked-2012-09-24-jonmcl
 
 Reorder and filter items with a nice shuffling animation.
 
@@ -30,6 +29,7 @@ Github site: http://github.com/razorjack/quicksand
             selector: '> *',
             dx: 0,
             dy: 0,
+            maxWidth: 0,
             retainExisting: true // disable if you want the collection of items to be replaced completely by incoming items.
         };
         $.extend(options, customOptions);
@@ -45,12 +45,11 @@ Github site: http://github.com/razorjack/quicksand
         } else if (typeof(arguments[2] == 'function')) {
             var callbackFunction = arguments[2];
         }
-    
         
         return this.each(function (i) {
             var val;
             var animationQueue = []; // used to store all the animation params before starting the animation; solves initial animation slowdowns
-            var $collection = $(collection).clone(); // destination (target) collection
+            var $collection = $(collection).filter('[' + options.attribute + ']').clone(); // destination (target) collection
             var $sourceParent = $(this); // source, the visible container of source collection
             var sourceHeight = $(this).css('height'); // used to keep height and document flow during the animation
             var sourceWidth = $(this).css('width'); // used to keep width and document flow during the animation
@@ -186,7 +185,7 @@ Github site: http://github.com/razorjack/quicksand
                 }
 
                 rawObj.style.position = 'absolute';
-                rawObj.style.margin = '0'; 
+                rawObj.style.margin = '0';
 
 				if (!options.adjustWidth)
 				{
@@ -197,8 +196,11 @@ Github site: http://github.com/razorjack/quicksand
 
                 rawObj.style.top = (offsets[i].top - parseFloat(rawObj.style.marginTop) - correctionOffset.top + dy) + 'px';
                 rawObj.style.left = (offsets[i].left - parseFloat(rawObj.style.marginLeft) - correctionOffset.left + dx) + 'px';
+
+                if (options.maxWidth > 0 || offsets[i].left > options.maxWidth)
+                  rawObj.style.display = 'none';
             });
-                    
+
             // create temporary container with destination collection
             var $dest = $($sourceParent).clone();
             var rawDest = $dest.get(0);
@@ -220,10 +222,6 @@ Github site: http://github.com/razorjack/quicksand
             rawDest.style.position = 'absolute';
             rawDest.style.top = offset.top - correctionOffset.top + 'px';
             rawDest.style.left = offset.left - correctionOffset.left + 'px';
-            
-            
-    
-            
 
             if (options.adjustHeight === 'dynamic') {
                 // If destination container has different height than source container
@@ -239,7 +237,7 @@ Github site: http://github.com/razorjack/quicksand
                     adjustHeightOnCallback = true;
                 }
             }
-            
+
             if (options.adjustWidth === 'dynamic') {
                 // If destination container has different width than source container
                 // the width can be animated, adjusting it to destination width
@@ -254,7 +252,7 @@ Github site: http://github.com/razorjack/quicksand
                     adjustWidthOnCallback = true;
                 }
             }
-                
+
             // Now it's time to do shuffling animation
             // First of all, we need to identify same elements within source and destination collections    
             $source.each(function (i) {
@@ -284,7 +282,6 @@ Github site: http://github.com/razorjack/quicksand
                                                      opacity: 1.0
                                                     }
                                             });
-
                     } else {
                         animationQueue.push({
                                             element: $(this), 
@@ -294,7 +291,6 @@ Github site: http://github.com/razorjack/quicksand
                                                         scale: '1.0'
                                                        }
                                             });
-
                     }
                 } else {
                     // The item from source collection is not present in destination collections
@@ -321,8 +317,8 @@ Github site: http://github.com/razorjack/quicksand
                             sourceElement = $(this);
                             return false;
                         }
-                    });                 
-
+                    });
+                    
                     $collection.each(function() {
                         if (options.attribute(this) == val) {
                             destElement = $(this);
@@ -335,7 +331,7 @@ Github site: http://github.com/razorjack/quicksand
                 }
                 
                 var animationOptions;
-                if (sourceElement.length === 0) {
+                if (sourceElement.length === 0 && destElement.length > 0) {
                     // No such element in source collection...
                     if (!options.useScaling) {
                         animationOptions = {
@@ -348,21 +344,24 @@ Github site: http://github.com/razorjack/quicksand
                         };
                     }
                     // Let's create it
-                    d = destElement.clone();
+                    var d = destElement.clone();
                     var rawDestElement = d.get(0);
                     rawDestElement.style.position = 'absolute';
                     rawDestElement.style.margin = '0';
                     rawDestElement.style.width = width + 'px'; // sets the width to the current element with even if it has been changed by a responsive design  
                     rawDestElement.style.top = destElement.offset().top - correctionOffset.top + 'px';
                     rawDestElement.style.left = destElement.offset().left - correctionOffset.left + 'px';
+
                     d.css('opacity', 0.0); // IE
                     if (options.useScaling) {
                         d.css('transform', 'scale(0.0)');
                     }
                     d.appendTo($sourceParent);
                     
-                    animationQueue.push({element: $(d), 
-                                         animation: animationOptions});
+                    if (options.maxWidth == 0 || destElement.offset().left < options.maxWidth) {
+                      animationQueue.push({element: $(d),
+                                           animation: animationOptions});
+                    }
                 }
             });
             
