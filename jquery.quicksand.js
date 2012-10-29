@@ -79,55 +79,55 @@ Github site: http://github.com/razorjack/quicksand
                     postCallbackPerformed = 1;
                     
 					if (!options.atomic) {
-                    // hack: 
-                    // used to be: $sourceParent.html($dest.html()); // put target HTML into visible source container
-                    // but new webkit builds cause flickering when replacing the collections
-                    var $toDelete = $sourceParent.find('> *');
-                    if (!options.retainExisting) {
-                      $sourceParent.prepend($dest.find('> *'));
-                      $toDelete.remove();
-                    } else {
-                      // Avoid replacing elements because we may have already altered items in significant
-                      // ways and it would be bad to have to do it again. (i.e. lazy load images) But $dest holds the
-                      // correct ordering. So we must re-sequence items in $sourceParent to match.
-                      var $keepElements = $([]);
-                      $dest.find('> *').each(function(i) {
-                        var $matchedElement = $([]);
-                        if (typeof(options.attribute) == 'function') {
-                          var val = options.attribute($(this));
-                          $toDelete.each(function() {
-                            if (options.attribute(this) == val) {
-                              $matchedElement = $(this);
-                              return false;
-                            }
-                          });
-                        } else {
-                          $matchedElement = $toDelete.find('> *').filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
-                        }
-                        if ($matchedElement.length > 0) {
-                          // There is a matching element in the $toDelete list and in $dest list, so make sure
-                          // it is in the right location within $sourceParent and put it in the list of elements we need
-                          // to not delete.
-                          $keepElements = $keepElements.add($matchedElement);
-                          if (i === 0) {
-                            $sourceParent.prepend($matchedElement);
-                          } else {
-                            $matchedElement.insertAfter($sourceParent.find('> *').get(i - 1));
-                          }
-                        }
-                      });
-                      // Remove whatever is remaining from the DOM
-                      $toDelete.not($keepElements).remove();
-                      // Remove all element styles added for the animation. @todo restore original values?
-                      $sourceParent.find('> *').removeAttr('style').addClass('testing');
-                    }
+						// hack: 
+						// used to be: $sourceParent.html($dest.html()); // put target HTML into visible source container
+						// but new webkit builds cause flickering when replacing the collections
+						var $toDelete = $sourceParent.find('> *');
+						if (!options.retainExisting) {
+						  $sourceParent.prepend($dest.find('> *'));
+						  $toDelete.remove();
+						} else {
+						  // Avoid replacing elements because we may have already altered items in significant
+						  // ways and it would be bad to have to do it again. (i.e. lazy load images) But $dest holds the
+						  // correct ordering. So we must re-sequence items in $sourceParent to match.
+						  var $keepElements = $([]);
+						  $dest.find('> *').each(function(i) {
+							var $matchedElement = $([]);
+							if (typeof(options.attribute) == 'function') {
+							  var val = options.attribute($(this));
+							  $toDelete.each(function() {
+								if (options.attribute(this) == val) {
+								  $matchedElement = $(this);
+								  return false;
+								}
+							  });
+							} else {
+							  $matchedElement = $toDelete.find('> *').filter('[' + options.attribute + '=' + $(this).attr(options.attribute) + ']');
+							}
+							if ($matchedElement.length > 0) {
+							  // There is a matching element in the $toDelete list and in $dest list, so make sure
+							  // it is in the right location within $sourceParent and put it in the list of elements we need
+							  // to not delete.
+							  $keepElements = $keepElements.add($matchedElement);
+							  if (i === 0) {
+								$sourceParent.prepend($matchedElement);
+							  } else {
+								$matchedElement.insertAfter($sourceParent.find('> *').get(i - 1));
+							  }
+							}
+						  });
+						  // Remove whatever is remaining from the DOM
+						  $toDelete.not($keepElements).remove();
+						  // Remove all element styles added for the animation. @todo restore original values?
+						  $sourceParent.find('> *').removeAttr('style').addClass('testing');
+						}
 
-                    if (adjustHeightOnCallback) {
-                        $sourceParent.css('height', destHeight);
-                    }
-                    if (adjustWidthOnCallback) {
-                        $sourceParent.css('width', sourceWidth);
-                    }
+						if (adjustHeightOnCallback) {
+							$sourceParent.css('height', destHeight);
+						}
+						if (adjustWidthOnCallback) {
+							$sourceParent.css('width', sourceWidth);
+						}
 					}
                     options.enhancement($sourceParent); // Perform custom visual enhancements on a newly replaced collection
                     if (typeof callbackFunction == 'function') {
