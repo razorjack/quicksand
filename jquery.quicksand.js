@@ -134,6 +134,14 @@ Github site: http://github.com/razorjack/quicksand
                         callbackFunction.call(this);
                     }                    
                 }
+				
+				if (false === options.adjustHeight) {
+					$sourceParent.css('height', 'auto');
+				}
+				
+				if (false === options.adjustWidth) {
+					$sourceParent.css('width', 'auto');
+				}
             };
             
             // Position: relative situations
