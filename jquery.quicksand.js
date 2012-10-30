@@ -342,7 +342,7 @@ Github site: http://github.com/razorjack/quicksand
 						}
 					});
 
-					$collection .each(function(i) {
+					$collection.each(function(i) {
 								// Grab all items from target collection not present in visible source collection
 								var sourceElement = [];
 								var destElement = [];
@@ -408,10 +408,8 @@ Github site: http://github.com/razorjack/quicksand
 					if (!options.atomic) {
 						options.enhancement($sourceParent); // Perform custom visual enhancements during the animation
 						for (i = 0; i < animationQueue.length; i++) {
-							if (i == animationQueue.length - 1) {
 								animationQueue[i].element.animate(animationQueue[i].animation, options.duration, options.easing,
 										postCallback);
-							}
 						}
 					} else {
 						$toDelete = $sourceParent.find(options.selector);
