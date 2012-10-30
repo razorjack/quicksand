@@ -1,2 +1,4 @@
 .DS_Store
 mydemos/
+/jquery.quicksand.*.js
+*.diff
