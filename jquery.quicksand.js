@@ -407,7 +407,7 @@ Github site: http://github.com/razorjack/quicksand
                 	}
 				}
             } else {
-                $toDelete = $sourceParent.find(optins.selector);
+                $toDelete = $sourceParent.find(options.selector);
                 $sourceParent.prepend($dest.find(options.selector));
                 for (i = 0; i < animationQueue.length; i++) {
                     if (animationQueue[i].dest && animationQueue[i].style) {
