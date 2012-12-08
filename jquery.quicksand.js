@@ -78,7 +78,7 @@ Github site: http://github.com/razorjack/quicksand
 					// Gets called when any animation is finished
 					var postCallbackPerformed = 0; // prevents the function from being called more than one time
 					var postCallback = function() {
-
+						$(this).css('margin', '').css('position', '').css('top', '').css('left', '').css('opacity', '');
 						if (!postCallbackPerformed) {
 							postCallbackPerformed = 1;
 
@@ -124,9 +124,6 @@ Github site: http://github.com/razorjack/quicksand
 													});
 									// Remove whatever is remaining from the DOM
 									$toDelete.not($keepElements).remove();
-									// Remove all element styles added for the animation. 
-									// @todo restore original values?
-									$sourceParent.find(options.selector).removeAttr('style').addClass('testing');
 								}
 
 								if (adjustHeightOnCallback) {
