@@ -53,7 +53,11 @@ Github site: http://github.com/razorjack/quicksand
 					var val;
 					var animationQueue = []; // used to store all the animation params before starting the animation;
 											 // solves initial animation slowdowns
-					var $collection = $(collection).filter('[' + options.attribute + ']').clone(); // destination (target) collection
+					if (typeof(options.attribute) == 'function') {
+						var $collection = $(collection);
+					} else {
+						var $collection = $(collection).filter('[' + options.attribute + ']').clone(); // destination (target) collection
+					}
 					var $sourceParent = $(this); // source, the visible container of source collection
 					var sourceHeight = $(this).css('height'); // used to keep height and document flow during the animation
 					var sourceWidth = $(this).css('width'); // used to keep  width and document flow during the animation
