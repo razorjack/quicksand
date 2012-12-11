@@ -1,5 +1,17 @@
 h1. jQuery Quicksand plugin release notes
 
+h2. v1.3.0
+
+* added @maxWidth@ option
+* added @atomic@ option
+* added @adjustWidth@ option
+* tweaked the plugin for better compatibility with responsive designs
+* made the plugin re-use existing DOM elements instead of replacing them with new collection
+* added Internet Explorer 10 and Windows 8 tweaks
+* minor bug fixes and improvements
+
+This release was made possible by: "@arlm":https://github.com/arlm, "@databyte":https://github.com/databyte, "@dalyons":https://github.com/dalyons, "@beedesk":https://github.com/beedesk, "@kiwiupover":https://github.com/kiwiupover and "@JonMcL":https://github.com/JonMcL.
+
 h2. v1.2.2
 
 - fixed Internet Explorer NaN issue
