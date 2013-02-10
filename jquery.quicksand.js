@@ -38,7 +38,7 @@ Github site: http://github.com/razorjack/quicksand
     $.extend(options, customOptions);
 
     // Got IE and want scaling effect? Kiss my ass.
-    if ($.browser.msie || (typeof ($.fn.scale) == 'undefined')) {
+    if (navigator.userAgent.match(/msie/i) || (typeof ($.fn.scale) == 'undefined')) {
       options.useScaling = false;
     }
 
@@ -71,7 +71,7 @@ Github site: http://github.com/razorjack/quicksand
       var width = $($source).innerWidth(); // need for the responsive design
 
       // Replace the collection and quit if IE6
-      if ($.browser.msie && parseInt($.browser.version, 10) < 7) {
+      if (navigator.userAgent.match(/msie/i) && navigator.userAgent.match(/6/)) {
         $sourceParent.html('').append($collection);
         return;
       }
