@@ -395,7 +395,7 @@ Github site: http://github.com/razorjack/quicksand
           d.css('opacity', 0.0); // IE
 
           if (options.useScaling) {
-            d.css('transform', 'scale(0.0)');
+            d.scale(0.0);
           }
           d.appendTo($sourceParent);
 
