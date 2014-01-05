@@ -34,11 +34,23 @@ Github site: http://github.com/razorjack/quicksand
       dy : 0,
       maxWidth : 0,
       retainExisting : true         // disable if you want the collection of items to be replaced completely by incoming items.
-    };
+    },
+
+    nativeScaleSupport = (function() {
+      var prefixes = 'transform WebkitTransform MozTransform OTransform msTransform'.split(' '),
+        el = document.createElement('div');
+      for (var i = 0; i < prefixes.length; i++) {
+        if (typeof el.style[prefixes[i]] != 'undefined') {
+          return true;
+        }
+      }
+      return false;
+    })();
+
     $.extend(options, customOptions);
 
-    // Got IE and want scaling effect? Kiss my ass.
-    if ($.browser.msie || (typeof ($.fn.scale) == 'undefined')) {
+    // Can the browser do scaling?
+    if (!nativeScaleSupport || (typeof ($.fn.scale) == 'undefined')) {
       options.useScaling = false;
     }
 
@@ -70,8 +82,8 @@ Github site: http://github.com/razorjack/quicksand
       var $source = $(this).find(options.selector); // source collection items
       var width = $($source).innerWidth(); // need for the responsive design
 
-      // Replace the collection and quit if IE6
-      if ($.browser.msie && parseInt($.browser.version, 10) < 7) {
+      // Replace the collection and quit if IE6. 
+      if (/*@cc_on/*@if(@_jscript_version<=5.6)1@else@*/0/*@end@*/) {
         $sourceParent.html('').append($collection);
         return;
       }
