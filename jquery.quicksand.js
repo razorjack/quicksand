@@ -17,6 +17,20 @@ Github site: http://github.com/razorjack/quicksand
  */
 
 (function($) {
+  
+  var cloneWithCanvases = function(jqueryObject) {
+      var clonedJqueryObject =  jqueryObject.clone();
+      var canvases = jqueryObject.find('canvas');
+      if (canvases.length) {
+          var clonedCanvases = clonedJqueryObject.find('canvas');
+          clonedCanvases.each(function(index) {
+              var context = this.getContext('2d');
+              context.drawImage(canvases.get(index), 0, 0);
+          });
+      }
+      return clonedJqueryObject;
+  };
+    
   $.fn.quicksand = function(collection, customOptions) {
     var options = {
       duration : 750,
@@ -69,7 +83,7 @@ Github site: http://github.com/razorjack/quicksand
       if (typeof(options.attribute) == 'function') {
         $collection = $(collection);
       } else {
-        $collection = $(collection).filter('[' + options.attribute + ']').clone(); // destination (target) collection
+        $collection = cloneWithCanvases($(collection).filter('[' + options.attribute + ']')); // destination (target) collection
       }
       var $sourceParent = $(this); // source, the visible container of source collection
       var sourceHeight = $(this).css('height'); // used to keep height and document flow during the animation
@@ -229,7 +243,7 @@ Github site: http://github.com/razorjack/quicksand
       });
 
       // create temporary container with destination collection
-      var $dest = $($sourceParent).clone();
+      var $dest = cloneWithCanvases($($sourceParent));
       var rawDest = $dest.get(0);
       rawDest.innerHTML = '';
       rawDest.setAttribute('id', '');
@@ -391,7 +405,7 @@ Github site: http://github.com/razorjack/quicksand
           }
 
           // Let's create it
-          var d = destElement.clone();
+          var d = cloneWithCanvases(destElement);
           var rawDestElement = d.get(0);
           rawDestElement.style.position = 'absolute';
           rawDestElement.style.margin = '0';
