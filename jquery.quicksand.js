@@ -466,4 +466,4 @@ Github site: http://github.com/razorjack/quicksand
       }
     });
   };
-})(jQuery);
+}(jQuery));
