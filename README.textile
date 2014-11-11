@@ -56,7 +56,7 @@ No additional CSS is required for the plugin to work. However, you should avoid 
 * @easing@ - animation easing effect, default: @'swing'@
 * @attribute@ - attribute containing unique value able to identify same item within source and destination collection, default: @'data-id'@
 * @adjustHeight@ - @'dynamic'@ to animate height of the container (when the target collection is larger or smaller than source collection), @'auto'@ to automatically set height before or after the animation, @false@ to keep container height constant; default: @'auto'@
-* @useScaling@ - use CSS3 scaling effect, default: true
+* @useScaling@ - use CSS3 scaling effect, default: false
 * @enhancement@ - function that performs custom visual enhancements (eg. font replacements) on newly created items, default: @function() {}@
 
 You can specify a callback function as an optional last argument.
