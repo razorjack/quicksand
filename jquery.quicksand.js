@@ -356,13 +356,13 @@ Github site: http://github.com/razorjack/quicksand
           } else {
             animationQueue.push({
               element : $(this),
+              style : {
+                top : $(this).offset().top,
+                left : $(this).offset().left,
+                opacity : ""
+              },
               animation : {
                 opacity : '0.0',
-                style : {
-                  top : $(this).offset().top,
-                  left : $(this).offset().left,
-                  opacity : ""
-                },
                 scale : '0.0'
               }
             });
