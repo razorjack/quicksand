@@ -16,8 +16,22 @@ Github site: http://github.com/razorjack/quicksand
 
  */
 
-(function($) {
-  
+
+// Add support for CommonJS/AMD modules.
+// per Universal Module Definition: https://github.com/umdjs/umd
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else if (typeof exports === 'object') {
+        // Node/CommonJS
+        factory(require('jquery'));
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function($) {
+
   var cloneWithCanvases = function(jqueryObject) {
       var clonedJqueryObject =  jqueryObject.clone();
       var canvases = jqueryObject.find('canvas');
@@ -30,7 +44,7 @@ Github site: http://github.com/razorjack/quicksand
       }
       return clonedJqueryObject;
   };
-    
+
   $.fn.quicksand = function(collection, customOptions) {
     var options = {
       duration : 750,
@@ -38,7 +52,7 @@ Github site: http://github.com/razorjack/quicksand
       attribute : 'data-id',        // attribute to recognize same items within source and dest
       adjustHeight : 'auto',        // 'dynamic' animates height during shuffling (slow), 'auto' adjusts it
                                     // before or after the animation, false leaves height constant
-      adjustWidth : 'auto',         // 'dynamic' animates width during shuffling (slow), 
+      adjustWidth : 'auto',         // 'dynamic' animates width during shuffling (slow),
                                     // 'auto' adjusts it before or after the animation, false leaves width constant
       useScaling : false,           // enable it if you're using scaling effect
       enhancement : function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
@@ -110,8 +124,8 @@ Github site: http://github.com/razorjack/quicksand
           postCallbackPerformed = 1;
 
           if (!options.atomic) {
-            // hack: used to be: $sourceParent.html($dest.html()); 
-            // put target HTML into visible source container  
+            // hack: used to be: $sourceParent.html($dest.html());
+            // put target HTML into visible source container
             // but new webkit builds cause flickering when replacing the collections
             var $toDelete = $sourceParent.find(options.selector);
             if (!options.retainExisting) {
@@ -119,7 +133,7 @@ Github site: http://github.com/razorjack/quicksand
               $toDelete.remove();
             } else {
               // Avoid replacing elements because we may have already altered items in significant
-              // ways and it would be bad to have to do it again. (i.e. lazy load images) 
+              // ways and it would be bad to have to do it again. (i.e. lazy load images)
               // But $dest holds the correct ordering. So we must re-sequence items in $sourceParent to match.
               var $keepElements = $([]);
               $dest.find(options.selector).each(function(i) {
@@ -134,7 +148,7 @@ Github site: http://github.com/razorjack/quicksand
                   });
                 } else {
                   $matchedElement = $toDelete.filter(
-                    '[' + options.attribute + '="'+ 
+                    '[' + options.attribute + '="'+
                     $(this).attr(options.attribute) + '"]');
                 }
                 if ($matchedElement.length > 0) {
@@ -251,7 +265,7 @@ Github site: http://github.com/razorjack/quicksand
       rawDest.style.width = $sourceParent.width() + 'px';
       $dest.append($collection);
       // Inserts node into HTML. Note that the node is under visible source container in the exactly same position
-      // The browser render all the items without showing them (opacity: 0.0) No offset calculations are needed, 
+      // The browser render all the items without showing them (opacity: 0.0) No offset calculations are needed,
       // the browser just extracts position from underlayered destination items and sets animation to destination positions.
       $dest.insertBefore($sourceParent);
       $dest.css('opacity', 0.0);
@@ -278,7 +292,7 @@ Github site: http://github.com/razorjack/quicksand
       }
 
       if (options.adjustWidth === 'dynamic') {
-        // If destination container has different width than source container the width can be animated, 
+        // If destination container has different width than source container the width can be animated,
         // adjusting it to destination width
         $sourceParent.animate({ width : $dest.width() }, options.duration, options.easing);
       } else if (options.adjustWidth === 'auto') {
@@ -412,7 +426,7 @@ Github site: http://github.com/razorjack/quicksand
 
           if (!options.adjustWidth) {
             // sets the width to the current element with even if it has been changed by a responsive design
-            rawDestElement.style.width = width + 'px'; 
+            rawDestElement.style.width = width + 'px';
           }
 
           rawDestElement.style.top = destElement.offset().top - correctionOffset.top + 'px';
@@ -451,13 +465,13 @@ Github site: http://github.com/razorjack/quicksand
               left : (animationQueue[i].style.left - destOffset.left)
             });
 
-            destElement.animate({top : "0", left : "0"}, 
-                                options.duration, 
-                                options.easing, 
+            destElement.animate({top : "0", left : "0"},
+                                options.duration,
+                                options.easing,
                                 postCallback);
           } else {
-            animationQueue[i].element.animate(animationQueue[i].animation, 
-                                              options.duration, 
+            animationQueue[i].element.animate(animationQueue[i].animation,
+                                              options.duration,
                                               options.easing,
                                               postCallback);
           }
@@ -466,4 +480,4 @@ Github site: http://github.com/razorjack/quicksand
       }
     });
   };
-}(jQuery));
+}(jQuery)));
