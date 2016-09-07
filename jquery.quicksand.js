@@ -75,6 +75,7 @@ Github site: http://github.com/razorjack/quicksand
       callbackFunction = arguments[2];
     }
 
+    var that = this;
     return this.each(function(i) {
       var val;
       var animationQueue = []; // used to store all the animation params before starting the animation;
@@ -162,7 +163,7 @@ Github site: http://github.com/razorjack/quicksand
           }
           options.enhancement($sourceParent); // Perform custom visual enhancements on a newly replaced collection
           if (typeof callbackFunction == 'function') {
-            callbackFunction.call(this);
+            callbackFunction.call(that);
           }
         }
 
