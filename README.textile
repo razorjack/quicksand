@@ -57,7 +57,7 @@ No additional CSS is required for the plugin to work. However, you should avoid 
 * @attribute@ - attribute containing unique value able to identify same item within source and destination collection, default: @'data-id'@
 * @adjustHeight@ - @'dynamic'@ to animate height of the container (when the target collection is larger or smaller than source collection), @'auto'@ to automatically set height before or after the animation, @false@ to keep container height constant; default: @'auto'@
 * @useScaling@ - use CSS3 scaling effect, default: false
-* @enhancement@ - function that performs custom visual enhancements (eg. font replacements) on newly created items, default: @function() {}@
+* @enhancement@ - function that performs custom visual enhancements (e.g. font replacements) on newly created items, default: @function() {}@
 
 You can specify a callback function as an optional last argument.
 
@@ -66,7 +66,7 @@ h2. Dependencies
 
 * jQuery 1.3+
 * Optional: jQuery Easing (http://gsgd.co.uk/sandbox/jquery/easing/) for additional easing options
-* Optional: jquery-animate-css-rotate-scale.js (www.zachstronaut.com) for additional CSS3 scaling animation; works fine without this plugin (utilizes fade efect instead)
+* Optional: jquery-animate-css-rotate-scale.js (www.zachstronaut.com) for additional CSS3 scaling animation; works fine without this plugin (utilizes fade effect instead)
 
 h2. Browser compatibility
 
@@ -108,7 +108,7 @@ h2. Integration with enhancement plugins
 
 Quicksand works fine with other plugins. Please note that:
 
-* when your items have functional enhancements (eg. tooltips), remember to use callback to apply them on newly cloned objects:
+* when your items have functional enhancements (e.g. tooltips), remember to use callback to apply them on newly cloned objects:
 
 <pre>
 $("#content").quicksand($("#data > li"), 
@@ -120,7 +120,7 @@ $("#content").quicksand($("#data > li"),
 );
 </pre>
 
-* when your items are visually enhanced (eg. font replacement), use @enhancement@ function to refresh/apply during the animation
+* when your items are visually enhanced (e.g. font replacement), use @enhancement@ function to refresh/apply during the animation
 
 <pre>
 $("#content").quicksand($("#data > li"), 
