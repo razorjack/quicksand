@@ -138,6 +138,8 @@ $("#content").quicksand($("#data > li"),
 Integration with enhancement plugins
 ------------------------------------
 
+(This option shouldn't be needed if you use Quicksand v1.5 or higher)
+
 Quicksand works fine with other plugins. Please note that:
 
 -   when your items have functional enhancements (e.g. tooltips),
