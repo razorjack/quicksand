@@ -20,7 +20,7 @@
   ],
   "bugs": "https://github.com/razorjack/quicksand/issues",
   "main": "jquery-quicksand.js",
-  "license": "MIT",
+  "license": "(MIT OR GPL-2.0)",
   "dependencies": {
     "jquery": ">=1.6.1"
   },
