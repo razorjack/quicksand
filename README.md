@@ -91,8 +91,8 @@ Dependencies
 -   Optional: jQuery Easing (http://gsgd.co.uk/sandbox/jquery/easing/)
     for additional easing options
 -   Optional: jquery.transform2d.js from
--   [jquery.transform.js](https://github.com/louisremi/jquery.transform.js) for
--   CSS3 scaling effect.
+    [jquery.transform.js](https://github.com/louisremi/jquery.transform.js) for
+    CSS3 scaling effect.
 
 Browser compatibility
 ---------------------
