@@ -168,7 +168,6 @@ $("#content").quicksand($("#data > li"),
 Licensing
 ---------
 
-Copyright © 2010 [Jacek Galanciak](https://razorjack.net)
-[MIT](https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) and
-[GPL version
-2](https://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt) license.
+Copyright © 2010 [Jacek Galanciak](https://razorjack.net).
+
+Dual licensed under [MIT](MIT-LICENSE.txt) and [GPL version 2](GPL-LICENSE.txt) license.
