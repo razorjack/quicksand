@@ -74,25 +74,13 @@ Github site: https://github.com/razorjack/quicksand
       dy : 0,
       maxWidth : 0,
       retainExisting : true         // disable if you want the collection of items to be replaced completely by incoming items.
-    },
+    };
 
-    nativeScaleSupport = (function() {
-      var prefixes = 'transform WebkitTransform MozTransform OTransform msTransform'.split(' '),
-        el = document.createElement('div');
-      for (var i = 0; i < prefixes.length; i++) {
-        if (typeof el.style[prefixes[i]] != 'undefined') {
-          return true;
-        }
-      }
-      return false;
-    })();
-
-    $.extend(options, customOptions);
-
-    // Can the browser do scaling?
-    if (!nativeScaleSupport || (typeof ($.fn.scale) == 'undefined')) {
+    if ((typeof ($.transform) == 'undefined')) {
       options.useScaling = false;
     }
+
+    $.extend(options, customOptions);
 
     var callbackFunction;
     if (typeof (arguments[1]) == 'function') {
@@ -358,7 +346,7 @@ Github site: https://github.com/razorjack/quicksand
                 top : destElement.offset().top - correctionOffset.top,
                 left : destElement.offset().left - correctionOffset.left,
                 opacity : 1.0,
-                scale : '1.0'
+                transform : 'scale(1.0)'
               }
             });
           }
@@ -386,7 +374,7 @@ Github site: https://github.com/razorjack/quicksand
               },
               animation : {
                 opacity : '0.0',
-                scale : '0.0'
+                transform : 'scale(0.0)'
               }
             });
           }
@@ -424,7 +412,7 @@ Github site: https://github.com/razorjack/quicksand
           if (!options.useScaling) {
             animationOptions = {opacity : '1.0'};
           } else {
-            animationOptions = {opacity : '1.0', scale : '1.0'};
+            animationOptions = {opacity : '1.0', transform : 'scale(1.0)'};
           }
 
           // Let's create it
@@ -444,7 +432,7 @@ Github site: https://github.com/razorjack/quicksand
           d.css('opacity', 0.0); // IE
 
           if (options.useScaling) {
-            d.scale(0.0);
+            d.css("transform", "scale(0.0)");
           }
           d.appendTo($sourceParent);
 
