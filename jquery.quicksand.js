@@ -45,16 +45,16 @@ Github site: https://github.com/razorjack/quicksand
   }
 }(function ($) {
   var cloneWithCanvases = function(jqueryObject) {
-      var clonedJqueryObject =  jqueryObject.clone();
-      var canvases = jqueryObject.find('canvas');
-      if (canvases.length) {
-          var clonedCanvases = clonedJqueryObject.find('canvas');
-          clonedCanvases.each(function(index) {
-              var context = this.getContext('2d');
-              context.drawImage(canvases.get(index), 0, 0);
-          });
-      }
-      return clonedJqueryObject;
+    var clonedJqueryObject =  jqueryObject.clone();
+    var canvases = jqueryObject.find('canvas');
+    if (canvases.length) {
+      var clonedCanvases = clonedJqueryObject.find('canvas');
+      clonedCanvases.each(function(index) {
+        var context = this.getContext('2d');
+        context.drawImage(canvases.get(index), 0, 0);
+      });
+    }
+    return clonedJqueryObject;
   };
 
   $.fn.quicksand = function(collection, customOptions) {
