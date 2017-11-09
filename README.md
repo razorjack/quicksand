@@ -77,20 +77,22 @@ please use class instead.
     `'auto'`
 -   `useScaling` - use CSS3 scaling effect, default: false
 -   `enhancement` - function that performs custom visual enhancements
-    (e.g. font replacements) on newly created items, default:
-    `function() {}`
+    (e.g. font replacements) on newly created items, default: `function() {}`.
+    Since version 1.5 of this plugin, this shouldn't be required in most cases
+    as elements created by jquery.quicksand are deep-cloned, which preserves
+    their enhancements and attached events.
 
 You can specify a callback function as an optional last argument.
 
 Dependencies
 ------------
 
--   jQuery 1.3+
+-   jQuery 1.6.1+. jQuery 2 and jQuery 3 is fully supported
 -   Optional: jQuery Easing (http://gsgd.co.uk/sandbox/jquery/easing/)
     for additional easing options
--   Optional: jquery-animate-css-rotate-scale.js (www.zachstronaut.com)
-    for additional CSS3 scaling animation; works fine without this
-    plugin (utilizes fade effect instead)
+-   Optional: jquery.transform2d.js from
+-   [jquery.transform.js](https://github.com/louisremi/jquery.transform.js) for
+-   CSS3 scaling effect.
 
 Browser compatibility
 ---------------------
