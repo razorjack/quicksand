@@ -76,11 +76,11 @@ Github site: https://github.com/razorjack/quicksand
       retainExisting : true         // disable if you want the collection of items to be replaced completely by incoming items.
     };
 
+    $.extend(options, customOptions);
+
     if ((typeof ($.transform) == 'undefined')) {
       options.useScaling = false;
     }
-
-    $.extend(options, customOptions);
 
     var callbackFunction;
     if (typeof (arguments[1]) == 'function') {
