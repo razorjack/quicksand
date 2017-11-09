@@ -5,12 +5,12 @@ jQuery plugin for reordering and filtering items with a nice shuffling
 animation like the one [in this
 video](http://www.viddler.com/explore/37signals/videos/90/8.805/).
 
-Project site: <http://razorjack.net/quicksand>.
+Project site: <https://razorjack.net/quicksand>.
 
 Demos & docs
 ------------
 
-Please visit [the project site](http://razorjack.net/quicksand) for live
+Please visit [the project site](https://razorjack.net/quicksand) for live
 demos & documentation.
 
 Usage
@@ -162,7 +162,7 @@ Quicksand works fine with other plugins. Please note that:
 Licensing
 ---------
 
-Copyright © 2010 [Jacek Galanciak](http://razorjack.net)
-[MIT](http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) and
+Copyright © 2010 [Jacek Galanciak](https://razorjack.net)
+[MIT](https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) and
 [GPL version
-2](http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt) license.
+2](https://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt) license.
