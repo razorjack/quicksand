@@ -171,3 +171,7 @@ Licensing
 Copyright © 2010 [Jacek Galanciak](https://razorjack.net).
 
 Dual licensed under [MIT](MIT-LICENSE.txt) and [GPL version 2](GPL-LICENSE.txt) license.
+
+In simple language: you don't get any warranty or promise of future maintenance
+of this library, but you can modify the code or use this library, without any limitations, in
+commercial products, including commercial website templates.
