@@ -166,10 +166,6 @@ Github site: http://github.com/razorjack/quicksand
           }
         }
 
-        if (false === options.adjustHeight) {
-          $sourceParent.css('height', 'auto');
-        }
-
         if (false === options.adjustWidth) {
           $sourceParent.css('width', 'auto');
         }
