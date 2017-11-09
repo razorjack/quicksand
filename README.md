@@ -19,35 +19,39 @@ Usage
 The following example would filter items in \#content with shuffling
 animation, leaving only CMYK colors.
 
-    $("#content").quicksand($("#data > li"), 
-      {
-        // all the parameters have sensible defaults
-        // and in most cases can be optional
-        duration: 1000,
-        easing: "swing",
-        attribute: "data-id",
-      }
-    );
+```javascript
+$("#content").quicksand($("#data > li"),
+  {
+    // all the parameters have sensible defaults
+    // and in most cases can be optional
+    duration: 1000,
+    easing: "swing",
+    attribute: "data-id",
+  }
+);
+```
 
 The markup could look like this:
 
-    <ol id="content" class="grid">
-      <li data-id="red">Red</li>
-      <li data-id="green">Green</li>
-      <li data-id="blue">Blue</li>
-      <li data-id="black">Black</li>
-      <li data-id="white">White</li>
-      <li data-id="yellow">Yellow</li>
-      <li data-id="cyan">Cyan</li>
-      <li data-id="magenta">Magenta</li>    
-    </ol>
+```html
+<ol id="content" class="grid">
+  <li data-id="red">Red</li>
+  <li data-id="green">Green</li>
+  <li data-id="blue">Blue</li>
+  <li data-id="black">Black</li>
+  <li data-id="white">White</li>
+  <li data-id="yellow">Yellow</li>
+  <li data-id="cyan">Cyan</li>
+  <li data-id="magenta">Magenta</li>
+</ol>
 
-    <ol id="data" style="display: none;">
-      <li data-id="cyan">Cyan</li>
-      <li data-id="magenta">Magenta</li>
-      <li data-id="yellow">Yellow</li>
-      <li data-id="black">Black</li>    
-    </ol>
+<ol id="data" style="display: none;">
+  <li data-id="cyan">Cyan</li>
+  <li data-id="magenta">Magenta</li>
+  <li data-id="yellow">Yellow</li>
+  <li data-id="black">Black</li>
+</ol>
+```
 
 Please note that you need to set additional attribute (you can specify
 which one in options hash, by default it's data-id) so that the plugin
@@ -113,19 +117,21 @@ Custom attribute function
 If you don't like HTML5 data-\* attributes, you can specify a function
 instead.
 
-    $("#content").quicksand($("#data > li"), 
-      {
-        // all the parameters have sensible defaults
-        // and in most cases can be optional
-        duration: 1000,
-        easing: "swing",
-        attribute: "data-id",
-        attribute: function(v) {
-          // different src of img means: different object
-          return $(v).find('img').attr('src');
-        }
-      }
-    );
+```javascript
+$("#content").quicksand($("#data > li"),
+  {
+    // all the parameters have sensible defaults
+    // and in most cases can be optional
+    duration: 1000,
+    easing: "swing",
+    attribute: "data-id",
+    attribute: function(v) {
+      // different src of img means: different object
+      return $(v).find('img').attr('src');
+    }
+  }
+);
+```
 
 Integration with enhancement plugins
 ------------------------------------
@@ -135,29 +141,29 @@ Quicksand works fine with other plugins. Please note that:
 -   when your items have functional enhancements (e.g. tooltips),
     remember to use callback to apply them on newly cloned objects:
 
-<!-- -->
-
-    $("#content").quicksand($("#data > li"), 
-      {
-        duration: 1000,
-      }, function() { // callback function
-        $('#content a').tooltip();
-      }
-    );
+```javascript
+$("#content").quicksand($("#data > li"),
+  {
+    duration: 1000,
+  }, function() { // callback function
+    $('#content a').tooltip();
+  }
+);
+```
 
 -   when your items are visually enhanced (e.g. font replacement), use
     `enhancement` function to refresh/apply during the animation
 
-<!-- -->
-
-    $("#content").quicksand($("#data > li"), 
-      {
-        duration: 1000,
-        enhancement: function() {
-          Cufon.refresh('#content span');
-        }
-      }
-    );
+```javascript
+$("#content").quicksand($("#data > li"),
+  {
+    duration: 1000,
+    enhancement: function() {
+      Cufon.refresh('#content span');
+    }
+  }
+);
+```
 
 Licensing
 ---------
