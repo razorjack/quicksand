@@ -162,8 +162,7 @@ Quicksand works fine with other plugins. Please note that:
 Licensing
 ---------
 
-Copyright © 2010 [Jacek Galanciak](http://razorjack.net) and
-[agilope](http://agilope.com), released under both
+Copyright © 2010 [Jacek Galanciak](http://razorjack.net)
 [MIT](http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) and
 [GPL version
 2](http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt) license.
