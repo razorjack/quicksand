@@ -3,7 +3,7 @@ Quicksand
 
 jQuery plugin for reordering and filtering items with a nice shuffling
 animation like the one [in this
-video](http://www.viddler.com/explore/37signals/videos/90/8.805/).
+video](https://viddler.com/v/420ee8e4).
 
 Project site: <https://razorjack.net/quicksand>.
 
