@@ -1,6 +1,6 @@
 {
   "name": "jquery-quicksand",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "jQuery plugin. Reorder and filter items with a nice shuffling animation.",
   "homepage": "https://razorjack.net/quicksand",
   "main": "jquery.quicksand.js",

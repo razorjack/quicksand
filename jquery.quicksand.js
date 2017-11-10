@@ -1,6 +1,6 @@
 /*
 
-Quicksand 1.5
+Quicksand 1.6.0
 
 Reorder and filter items with a nice shuffling animation.
 

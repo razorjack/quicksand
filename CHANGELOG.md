@@ -1,6 +1,14 @@
 jQuery Quicksand plugin release notes
 =====================================
 
+v1.6.0
+------
+
+-   added bower.json file
+-   *breaking change*: changed the way `adjustWidth` and `adjustHeight`
+    settings work. `false` leaves these values alone (useful on responsive
+    pages), `'call'` sets it before or after the call (determined
+    automatically), `'auto'` sets them to `auto`
 
 v1.5.0
 ------
