@@ -72,9 +72,14 @@ please use class instead.
     `'data-id'`
 -   `adjustHeight` - `'dynamic'` to animate height of the container
     (when the target collection is larger or smaller than source
-    collection), `'auto'` to automatically set height before or after
+    collection), `'call'` to automatically set height before or after
     the animation, `false` to keep container height constant; default:
-    `'auto'`
+    `'call'`
+-   `adjustWidth` - Adjusts the width of container to fit all the items,
+    `'call'` for automatically adjusting before or after the animation
+    (determined automatically), `'dynamic'` for width adjustment animation,
+    `'auto'` to set the value to `'auto'`, `false` for not doing absolutely
+    anything about it (useful on responsive pages).
 -   `useScaling` - use CSS3 scaling effect, default: false
 -   `enhancement` - function that performs custom visual enhancements
     (e.g. font replacements) on newly created items, default: `function() {}`.
