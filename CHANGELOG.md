@@ -1,6 +1,28 @@
 jQuery Quicksand plugin release notes
 =====================================
 
+
+v1.5.0
+------
+
+-   added package.json file and published the library as npm package
+-   the plugin is now exported using Universal Module Definition
+-   *potentially breaking*: modernized approach to CSS3 scaling,
+    we're now using a different dependency:
+    (jquery.transform2d.js)[jquery.transform2d.js]
+-   improved jQuery compatibility, we're now compatible with 1.6.1+,
+    2.0+, 3.0+
+-   Quicksand's cloning now includes all event handlers, making it effortless
+    to integrate with other enhancement plugins. `enhancement` parameter should
+    no longer be needed in most cases
+
+This release was meda possible by:
+
+- [liamim](https://github.com/liamim)
+- [seethroughtrees](https://github.com/seethroughtrees)
+- [seanhussey](https://github.com/seanhussey)
+- [Connum](https://github.com/Connum)
+
 v1.4.0
 ------
 
