@@ -62,10 +62,10 @@ Github site: https://github.com/razorjack/quicksand
       duration : 750,
       easing : 'swing',
       attribute : 'data-id',        // attribute to recognize same items within source and dest
-      adjustHeight : 'auto',        // 'dynamic' animates height during shuffling (slow), 'auto' adjusts it
-                                    // before or after the animation, false leaves height constant
-      adjustWidth : 'auto',         // 'dynamic' animates width during shuffling (slow),
-                                    // 'auto' adjusts it before or after the animation, false leaves width constant
+      adjustHeight : 'call',        // 'dynamic' animates height during shuffling (slow), 'call' adjusts it
+                                    // before or after the animation, false leaves height alone, 'auto' sets it to auto
+      adjustWidth : false,          // 'dynamic' animates width during shuffling (slow),
+                                    // 'call' adjusts it before or after the animation, false leaves the width alone, 'auto' sets it to auto
       useScaling : false,           // enable it if you're using scaling effect
       enhancement : function(c) {}, // Visual enhacement (eg. font replacement) function for cloned elements
       selector : '> *',
@@ -181,7 +181,11 @@ Github site: https://github.com/razorjack/quicksand
           }
         }
 
-        if (false === options.adjustWidth) {
+        if ('auto' === options.adjustHeight) {
+          $sourceParent.css('height', 'auto');
+        }
+
+        if ('auto' === options.adjustWidth) {
           $sourceParent.css('width', 'auto');
         }
       };
@@ -213,8 +217,12 @@ Github site: https://github.com/razorjack/quicksand
       correctionOffset.top -= options.dy;
 
       // keeps nodes after source container, holding their position
-      $sourceParent.css('height', $(this).height());
-      $sourceParent.css('width', $(this).width());
+      if (options.adjustHeight !== false) {
+        $sourceParent.css('height', $(this).height());
+      }
+      if (options.adjustWidth !== false) {
+        $sourceParent.css('width', $(this).width());
+      }
 
       // get positions of source collections
       $source.each(function(i) {
@@ -277,7 +285,7 @@ Github site: https://github.com/razorjack/quicksand
         // If destination container has different height than source container the height can be animated,
         // adjusting it to destination height
         $sourceParent.animate({ height : $dest.height() }, options.duration, options.easing);
-      } else if (options.adjustHeight === 'auto') {
+      } else if (options.adjustHeight === 'call') {
         destHeight = $dest.height();
         if (parseFloat(sourceHeight) < parseFloat(destHeight)) {
           // Adjust the height now so that the items don't move out of the container
@@ -292,7 +300,7 @@ Github site: https://github.com/razorjack/quicksand
         // If destination container has different width than source container the width can be animated,
         // adjusting it to destination width
         $sourceParent.animate({ width : $dest.width() }, options.duration, options.easing);
-      } else if (options.adjustWidth === 'auto') {
+      } else if (options.adjustWidth === 'call') {
         destWidth = $dest.width();
         if (parseFloat(sourceWidth) < parseFloat(destWidth)) {
           // Adjust the height now so that the items don't move out of the container
