@@ -15,6 +15,7 @@ v1.5.0
 -   Quicksand's cloning now includes all event handlers, making it effortless
     to integrate with other enhancement plugins. `enhancement` parameter should
     no longer be needed in most cases
+-   fixed `this` scoping issue in callback function
 
 This release was meda possible by:
 
